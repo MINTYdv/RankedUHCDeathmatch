@@ -1,0 +1,5 @@
+name: RankedUHCDeathmatch
+author: [ MINTY ]
+website: https://mintydev.xyz
+main: xyz.mintydev.uhcdeathmatch.UHCDeathMatch
+version: 1.0.0
