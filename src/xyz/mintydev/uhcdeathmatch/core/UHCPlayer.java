@@ -16,6 +16,10 @@ public class UHCPlayer {
 	 * Getters & Setters
 	 * */
 	
+	public void setState(PlayerState state) {
+		this.state = state;
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}

@@ -1,0 +1,5 @@
+items:
+  sword: "&6&lJoin a game"
+gui:
+  game-select:
+    title: "&6&lSelect a game"
