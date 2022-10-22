@@ -33,6 +33,7 @@ public class GameManager {
 	public void setLobby(Player player) {
 		UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
 		uhcPlayer.setState(PlayerState.LOBBY);
+		player.getInventory().clear();
 		
 		// set items
 		final ItemStack swordItem = ItemBuilder.createItem(Material.DIAMOND_SWORD, 1, Lang.get("items.sword"), new ArrayList<>());

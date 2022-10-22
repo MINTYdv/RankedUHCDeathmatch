@@ -21,7 +21,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>E:\ELARYS SERV\EXPORTS</outputDirectory>
+                    <outputDirectory>E:\Freelance\1.8.9 Server\plugins</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
