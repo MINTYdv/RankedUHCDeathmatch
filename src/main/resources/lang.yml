@@ -1,5 +1,13 @@
 items:
   sword: "&6&lJoin a game"
+  game: "&e&lGame #%number%"
 gui:
   game-select:
     title: "&6&lSelect a game"
+    game-lore:
+      - ''
+      - '&7Status: &c%status%'
+      - '&7Players: &e%players%/4'
+      - ''
+    lore-join: '&aClick to join the game'
+    lore-no: '&cYou can''t join this game.'
