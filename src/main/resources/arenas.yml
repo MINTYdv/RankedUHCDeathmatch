@@ -1,0 +1,28 @@
+arenas:
+  1:
+    world: "arena1"
+    players-pos:
+      1:
+        x: 0
+        y: 0
+        z: 0
+        yaw: 0
+        pitch: 0
+      2:
+        x: 0
+        y: 0
+        z: 0
+        yaw: 0
+        pitch: 0
+      3:
+        x: 0
+        y: 0
+        z: 0
+        yaw: 0
+        pitch: 0
+      4:
+        x: 0
+        y: 0
+        z: 0
+        yaw: 0
+        pitch: 0
