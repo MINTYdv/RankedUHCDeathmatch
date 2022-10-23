@@ -3,12 +3,14 @@ package xyz.mintydev.uhcdeathmatch.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class UHCGame {
 
 	private GameState state;
 	
+	private List<Block> placedBlocks = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
 	private List<Player> alivePlayers = new ArrayList<>();
 	
@@ -16,8 +18,6 @@ public class UHCGame {
 	
 	public UHCGame() {
 		this.state = GameState.WAITING;
-		this.players = new ArrayList<>();
-		this.alivePlayers = new ArrayList<>();
 	}
 	
 	public Arena getArena() {
@@ -32,6 +32,10 @@ public class UHCGame {
 	 * Getters & Setters
 	 * */
 	
+	public List<Block> getPlacedBlocks() {
+		return placedBlocks;
+	}
+
 	public List<Player> getPlayers() {
 		return players;
 	}

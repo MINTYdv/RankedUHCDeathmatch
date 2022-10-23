@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -167,7 +168,12 @@ public class GameManager {
 			arena.setUsed(true);
 		}
 		
+		for(Block block : game.getPlacedBlocks()) {
+			block.setType(Material.AIR);
+		}
+		
 		// clear players
+		game.getPlacedBlocks().clear();
 		game.getPlayers().clear();
 		game.getAlivePlayers().clear();
 	}
