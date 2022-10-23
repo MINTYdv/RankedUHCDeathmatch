@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
@@ -19,6 +21,38 @@ public class GameListener implements Listener {
 	
 	public GameListener(UHCDeathMatch main) {
 		this.main = main;
+	}
+	
+	@EventHandler
+	public void onDamage(EntityDamageEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		final Player player = (Player) e.getEntity();
+		
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
+		if(uPlayer.getState() != PlayerState.PLAYING) return;
+		
+		final UHCGame game = main.getGameManager().getGame(player);
+		if(game == null) return;
+		
+		if(game.getState() != GameState.RUNNING) {
+			e.setCancelled(true);
+			return;
+		}
+	}
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent e) {
+		final Player player = e.getPlayer();
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
+		if(uPlayer.getState() != PlayerState.PLAYING) return;
+		
+		final UHCGame game = main.getGameManager().getGame(player);
+		if(game == null) return;
+		
+		if(game.getState() != GameState.RUNNING) {
+			e.setCancelled(true);
+			return;
+		}
 	}
 	
 	@EventHandler
