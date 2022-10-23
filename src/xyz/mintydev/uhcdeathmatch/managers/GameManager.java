@@ -3,11 +3,11 @@ package xyz.mintydev.uhcdeathmatch.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
@@ -46,6 +46,8 @@ public class GameManager {
 		UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
 		uhcPlayer.setState(PlayerState.LOBBY);
 		player.getInventory().clear();
+		player.setFoodLevel(20);
+		player.setHealth(player.getMaxHealth());
 		
 		// set items
 		final ItemStack swordItem = ItemBuilder.createItem(Material.DIAMOND_SWORD, 1, Lang.get("items.sword"), new ArrayList<>());
@@ -60,9 +62,13 @@ public class GameManager {
 		
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
 		uPlayer.setState(PlayerState.PLAYING);
+		uPlayer.setPreviousLocation(player.getLocation());
 		
 		// TODO tp player
 		game.getArena().teleportPlayer(player);
+		player.setFoodLevel(20);
+		player.setHealth(player.getMaxHealth());
+		player.setGameMode(GameMode.SURVIVAL);
 		
 		// give stuff
 		player.getInventory().clear();
@@ -95,13 +101,13 @@ public class GameManager {
 		final ItemStack helmet = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
 				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack chestplate = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
+		final ItemStack chestplate = ItemBuilder.getEnchantedItem(Material.DIAMOND_CHESTPLATE,
 				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack leggings = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
+		final ItemStack leggings = ItemBuilder.getEnchantedItem(Material.DIAMOND_LEGGINGS,
 				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack boots = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
+		final ItemStack boots = ItemBuilder.getEnchantedItem(Material.DIAMOND_BOOTS,
 				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
 		
@@ -116,6 +122,7 @@ public class GameManager {
 	public void leaveGame(Player player, UHCGame game) {
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
 		uPlayer.setState(PlayerState.LOBBY);
+		player.teleport(uPlayer.getPreviousLocation());
 		
 		if(game.getState() == GameState.WAITING) {
 			game.getArena().removePlayer(player);
@@ -132,7 +139,6 @@ public class GameManager {
 	}
 	
 	public void endGame(UHCGame game) {
-		if(game == null || game.getState() != GameState.FINISHED) return;
 		resetGame(game);
 		
 		for(Player player : game.getPlayers()) {

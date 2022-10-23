@@ -1,6 +1,7 @@
 items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
+  ghead: "&eGolden Head"
 gui:
   game-select:
     title: "&6&lSelect a game"
