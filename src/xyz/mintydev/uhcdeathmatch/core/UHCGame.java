@@ -9,8 +9,8 @@ public class UHCGame {
 
 	private GameState state;
 	
-	private List<Player> players;
-	private List<Player> alivePlayers;
+	private List<Player> players = new ArrayList<>();
+	private List<Player> alivePlayers = new ArrayList<>();
 	
 	private Arena arena;
 	

@@ -37,7 +37,8 @@ public class ArenaManager {
 		ConfigurationSection sec = getCustomConfig().getConfigurationSection("arenas");
 		
 		for(String id : sec.getKeys(false)) {
-			final String worldName = sec.getString(id + ".world");
+			final String worldName = sec.getString(id + ".world").replaceAll(" ", "_");
+			final String name = sec.getString(id + ".name").replaceAll("&", "§");
 			
 			List<Location> locations = new ArrayList<>();
 			ConfigurationSection locSec = sec.getConfigurationSection(id + ".players-pos");
@@ -50,9 +51,10 @@ public class ArenaManager {
 				locations.add(new Location(Bukkit.getWorld(worldName), x, y, z, (float)yaw, (float)pitch));
 			}
 			
-			final Arena arena = new Arena(worldName, locations);
+			final Arena arena = new Arena(name, worldName, locations);
 			this.arenas.add(arena);
 		}
+		main.getLogger().info("Loaded " + arenas.size() + " arenas.");
 	}
 	
 	private void createCustomConfig() {

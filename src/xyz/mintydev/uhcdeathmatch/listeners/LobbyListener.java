@@ -31,6 +31,7 @@ public class LobbyListener implements Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		final Player player = e.getPlayer();
 		final ItemStack item = e.getItem();
+		if(item == null || item.getType() == Material.AIR) return;
 		
 		final UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
 		if(uhcPlayer.getState() != PlayerState.LOBBY) return;

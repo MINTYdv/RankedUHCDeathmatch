@@ -3,3 +3,11 @@ author: [ MINTY ]
 website: https://mintydev.xyz
 main: xyz.mintydev.uhcdeathmatch.UHCDeathMatch
 version: 1.0.0
+commands:
+  leave:
+    description: leave a uhc ranked uhcdeathmatch game
+    aliases: l
+  duel:
+    description: duel a player
+  elo:
+    description: get the elo of a player

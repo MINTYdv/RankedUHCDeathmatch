@@ -3,6 +3,7 @@ package xyz.mintydev.uhcdeathmatch;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
+import xyz.mintydev.uhcdeathmatch.listeners.GameListener;
 import xyz.mintydev.uhcdeathmatch.listeners.LobbyListener;
 import xyz.mintydev.uhcdeathmatch.managers.ArenaManager;
 import xyz.mintydev.uhcdeathmatch.managers.GameManager;
@@ -27,13 +28,14 @@ public class UHCDeathMatch extends JavaPlugin {
 		instance = this;
 		new Lang(this);
 		this.playersManager = new PlayersManager();
-		this.gameManager = new GameManager(this);
 		this.arenaManager = new ArenaManager(this);
+		this.gameManager = new GameManager(this);
 		
 		this.guiManager = new UHCGuiManager(this);
 		
 		// listeners
 		this.getServer().getPluginManager().registerEvents(new LobbyListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
 		this.getServer().getPluginManager().registerEvents(this.guiManager, this);
 	}
 	

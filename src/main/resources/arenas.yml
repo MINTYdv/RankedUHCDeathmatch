@@ -1,5 +1,6 @@
 arenas:
   1:
+    name: '&bArena 1'
     world: "arena1"
     players-pos:
       1:

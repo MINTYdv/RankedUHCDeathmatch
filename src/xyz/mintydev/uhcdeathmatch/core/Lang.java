@@ -27,14 +27,14 @@ public class Lang {
 	}
 
 	public static String get(String KEY) {
-		return getCustomConfig().getString(KEY).replaceAll("&", "�");
+		return getCustomConfig().getString(KEY).replaceAll("&", "§");
 	}
 	
 	public static List<String> getList(String KEY)
 	{
 		List<String> result = new ArrayList<>();
 		for(String key : getCustomConfig().getStringList(KEY)) {
-			result.add(key.replaceAll("&", "�"));
+			result.add(key.replaceAll("&", "§"));
 		}
 		return result;
 	}
