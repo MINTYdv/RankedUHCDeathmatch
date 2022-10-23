@@ -49,6 +49,9 @@ public class GameManager {
 		player.getInventory().clear();
 		player.setFoodLevel(20);
 		player.setHealth(player.getMaxHealth());
+		if(uhcPlayer.getPreviousLocation() != null) {
+			player.teleport(uhcPlayer.getPreviousLocation());
+		}
 		
 		// set items
 		final ItemStack swordItem = ItemBuilder.createItem(Material.DIAMOND_SWORD, 1, Lang.get("items.sword"), new ArrayList<>());
@@ -140,11 +143,11 @@ public class GameManager {
 	}
 	
 	public void endGame(UHCGame game) {
-		resetGame(game);
-		
 		for(Player player : game.getPlayers()) {
 			setLobby(player);
 		}
+		
+		resetGame(game);
 	}
 	
 	private void createNewGame() {
