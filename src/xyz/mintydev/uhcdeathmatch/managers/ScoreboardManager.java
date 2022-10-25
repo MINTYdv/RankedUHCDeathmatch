@@ -57,7 +57,12 @@ public class ScoreboardManager {
 					str = str.replaceAll("%players%", game.getPlayers().size()+"");
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					
-					str = str.replaceAll("%status%", "§fWaiting for players..");
+					String status = "§fWaiting for players..";
+					if(game.getStartTimer() > 0) {
+						status = "§fStarting in §b" + game.getStartTimer();
+					}
+					
+					str = str.replaceAll("%status%", status);
 					
 					lines.add(str);
 				}

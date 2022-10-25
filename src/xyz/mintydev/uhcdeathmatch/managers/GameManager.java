@@ -186,6 +186,7 @@ public class GameManager {
 			game.getArena().resetTeleportations();
 		}
 		game.setState(GameState.WAITING);
+		game.setStartTimer(-1);
 		
 		// get arena
 		Arena arena = main.getArenaManager().getAvailableArea();

@@ -18,10 +18,18 @@ public class UHCGame {
 	private List<Player> alivePlayers = new ArrayList<>();
 	
 	private Arena arena;
+
+	private int startTimer;
 	
 	public UHCGame(UHCMode mode) {
 		this.mode = mode;
 		this.state = GameState.WAITING;
+	}
+	
+	public void broadcastMessage(String string) {
+		for(Player player : players) {
+			player.sendMessage(string);
+		}
 	}
 	
 	public Arena getArena() {
@@ -35,6 +43,14 @@ public class UHCGame {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public int getStartTimer() {
+		return startTimer;
+	}
+	
+	public void setStartTimer(int seconds) {
+		this.startTimer = seconds;
+	}
 	
 	public UHCMode getMode() {
 		return mode;
@@ -59,5 +75,5 @@ public class UHCGame {
 	public void setState(GameState state) {
 		this.state = state;
 	}
-	
+
 }

@@ -26,6 +26,28 @@ public class GameRunnable extends BukkitRunnable {
 				// send actionbar
 				UHCUtil.sendActionText(player, Lang.get("misc.leave-actionbar"));
 			}
+
+			final boolean canStart = game.getPlayers().size() >= 2;
+			if(!canStart && game.getStartTimer() > 0) {
+				game.setStartTimer(-1);
+				
+				game.broadcastMessage(Lang.get("game.errors.not-enough-players"));
+			}
+			
+			// start the timer
+			if(canStart && game.getStartTimer() < 0) game.setStartTimer(30);
+
+			if(canStart && game.getStartTimer() > 0) {
+				// remove one second from timer
+				game.setStartTimer(game.getStartTimer()-1);
+			}
+			
+			if(canStart && game.getStartTimer() == 0) {
+				// start game
+				Bukkit.broadcastMessage("starting the game");
+				main.getGameManager().startGame(game);
+				return;
+			}
 		}
 		
 		// RUNNING

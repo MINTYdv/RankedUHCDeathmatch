@@ -6,7 +6,7 @@ version: 1.0.0
 commands:
   leave:
     description: leave a uhc ranked uhcdeathmatch game
-    aliases: l
+    aliases: l, hub, lobby
   duel:
     description: duel a player
   elo:

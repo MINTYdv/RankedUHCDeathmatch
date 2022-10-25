@@ -13,6 +13,9 @@ items:
   modes:
     uhc: "&6&lUHC"
     nodebuff: "&c&lNoDebuff"
+game:
+  errors:
+    not-enough-players: "&cA player left so the game will not start. Timer resetted."
 scoreboards:
   title: '&6&lDEATCHMATCH'
   hub:
