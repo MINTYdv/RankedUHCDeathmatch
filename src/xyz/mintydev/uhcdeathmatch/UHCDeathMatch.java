@@ -1,9 +1,13 @@
 package xyz.mintydev.uhcdeathmatch;
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.listeners.GameListener;
 import xyz.mintydev.uhcdeathmatch.listeners.LobbyListener;
 import xyz.mintydev.uhcdeathmatch.managers.ArenaManager;
@@ -42,11 +46,13 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		this.getLogger().info("Plugin is now disabled.");
-		
-		for(UHCGame game : this.getGameManager().getGames()) {
-			gameManager.endGame(game);
+		// end all games
+		for(Entry<UHCMode, List<UHCGame>> entry : this.getGameManager().getGames().entrySet()) {
+			for(UHCGame game : entry.getValue())
+				gameManager.endGame(game);
 		}
+		
+		this.getLogger().info("Plugin is now disabled.");
 	}
 	
 	/* 

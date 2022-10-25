@@ -1,7 +1,10 @@
 package xyz.mintydev.uhcdeathmatch.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,27 +21,40 @@ import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCEnchant;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
+import xyz.mintydev.uhcdeathmatch.core.modes.ClassicMode;
+import xyz.mintydev.uhcdeathmatch.core.modes.NodebuffMode;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 
 public class GameManager {
 
 	private final UHCDeathMatch main;
 	
-	private List<UHCGame> games = new ArrayList<>();
+	private List<UHCMode> modes = new ArrayList<>();
+	private Map<UHCMode, List<UHCGame>> games = new HashMap<>();
 	
 	public GameManager(UHCDeathMatch main) {
 		this.main = main;
 		
-		for(int i = 1; i <= 8; i++) {
-			// create new game
-			createNewGame();
+		// create modes
+		modes.add(new ClassicMode());
+		modes.add(new NodebuffMode());
+		
+		// create games
+		for(UHCMode mode : modes) {
+			for(int i = 1; i <= 8; i++) {
+				createNewGame(mode);
+			}
 		}
+		System.out.println("Created " + this.games.size() + " games");
 	}
 	
 	public UHCGame getGame(Player player) {
-		for(UHCGame game : this.games) {
-			if(!(game.getPlayers().contains(player))) continue;
-			return game;
+		for(Entry<UHCMode, List<UHCGame>> entry : games.entrySet()) {
+			for(UHCGame game : entry.getValue()) {
+				if(!(game.getPlayers().contains(player))) continue;
+				return game;
+			}
 		}
 		return null;
 	}
@@ -119,8 +135,6 @@ public class GameManager {
 		player.getInventory().setChestplate(chestplate);
 		player.getInventory().setLeggings(leggings);
 		player.getInventory().setBoots(boots);
-		
-		// freeze player
 	}
 	
 	public void leaveGame(Player player, UHCGame game) {
@@ -131,15 +145,14 @@ public class GameManager {
 		if(game.getState() == GameState.WAITING) {
 			game.getArena().removePlayer(player);
 		}
+		
+		setLobby(player);
 	}
 	
 	public void startGame(UHCGame game) {
 		if(game == null || game.getState() != GameState.WAITING) return;
 		
 		game.getAlivePlayers().addAll(game.getPlayers());
-		
-		// TODO unfreeze all players
-		// enable damage
 	}
 	
 	public void endGame(UHCGame game) {
@@ -150,9 +163,16 @@ public class GameManager {
 		resetGame(game);
 	}
 	
-	private void createNewGame() {
-		UHCGame game = new UHCGame();
-		this.games.add(game);
+	private void createNewGame(UHCMode mode) {
+		if(!(games.containsKey(mode))) {
+			games.put(mode, new ArrayList<>());
+		}
+		List<UHCGame> list = games.get(mode);
+		
+		UHCGame game = new UHCGame(mode);
+		list.add(game);
+		games.remove(mode);
+		games.put(mode, list);
 		resetGame(game);
 	}
 
@@ -181,11 +201,19 @@ public class GameManager {
 		game.getAlivePlayers().clear();
 	}
 	
+	public List<UHCGame> getGames(UHCMode mode){
+		return games.get(mode);
+	}
+	
 	/* 
 	 * Getters & Setters
 	 * */
 	
-	public List<UHCGame> getGames() {
+	public List<UHCMode> getModes() {
+		return modes;
+	}
+
+	public Map<UHCMode, List<UHCGame>> getGames() {
 		return games;
 	}
 	

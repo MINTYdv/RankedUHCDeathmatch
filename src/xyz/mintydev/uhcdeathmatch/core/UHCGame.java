@@ -6,8 +6,11 @@ import java.util.List;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
+
 public class UHCGame {
 
+	private final UHCMode mode;
 	private GameState state;
 	
 	private List<Block> placedBlocks = new ArrayList<>();
@@ -16,7 +19,8 @@ public class UHCGame {
 	
 	private Arena arena;
 	
-	public UHCGame() {
+	public UHCGame(UHCMode mode) {
+		this.mode = mode;
 		this.state = GameState.WAITING;
 	}
 	
@@ -31,6 +35,10 @@ public class UHCGame {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public UHCMode getMode() {
+		return mode;
+	}
 	
 	public List<Block> getPlacedBlocks() {
 		return placedBlocks;

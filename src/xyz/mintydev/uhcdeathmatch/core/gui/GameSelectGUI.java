@@ -16,21 +16,25 @@ import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 import xyz.mintydev.uhcdeathmatch.util.gui.UHCGUI;
 
 public class GameSelectGUI extends UHCGUI {
 	
+	private final UHCMode mode;
 	private Map<Integer, UHCGame> games = new HashMap<>();
 	
-	public GameSelectGUI(UHCDeathMatch main) {
+	public GameSelectGUI(UHCMode mode, UHCDeathMatch main) {
 		super(main, "game_select", Lang.get("gui.game-select.title"), 1);
+		this.mode = mode;
 	}
 
 	@Override
 	public void contents(Player player, Inventory inv) {
-		for(int i = 0; i < main.getGameManager().getGames().size(); i++) {
-			final UHCGame game = main.getGameManager().getGames().get(i);
+		
+		for(int i = 0; i < main.getGameManager().getGames(mode).size(); i++) {
+			final UHCGame game = main.getGameManager().getGames(mode).get(i);
 			
 			List<String> lore = new ArrayList<>();
 			for(String str : Lang.getList("gui.game-select.game-lore")) {

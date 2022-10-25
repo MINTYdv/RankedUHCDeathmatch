@@ -2,7 +2,12 @@ items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
   ghead: "&eGolden Head"
+  modes:
+    uhc: "&6&lUHC"
+    nodebuff: "&c&lNoDebuff"
 gui:
+  mode-select:
+    title: "&6&lSelect a mode"
   game-select:
     title: "&6&lSelect a game"
     game-lore:

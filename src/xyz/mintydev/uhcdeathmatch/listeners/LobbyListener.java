@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
-import xyz.mintydev.uhcdeathmatch.core.gui.GameSelectGUI;
+import xyz.mintydev.uhcdeathmatch.core.gui.ModeSelectGUI;
 
 public class LobbyListener implements Listener {
 
@@ -38,7 +38,7 @@ public class LobbyListener implements Listener {
 		
 		if(item.getType() == Material.DIAMOND_SWORD) {
 			// open game select GUI
-			main.getGuiManager().open(player, new GameSelectGUI(main));
+			main.getGuiManager().open(player, new ModeSelectGUI(main));
 			return;
 		}
 	}
