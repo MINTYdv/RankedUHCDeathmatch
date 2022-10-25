@@ -99,6 +99,7 @@ public class GameManager {
 		game.getPlayers().add(player);
 		
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
+		uPlayer.setKills(0);
 		uPlayer.setState(PlayerState.PLAYING);
 		uPlayer.setPreviousLocation(player.getLocation());
 		

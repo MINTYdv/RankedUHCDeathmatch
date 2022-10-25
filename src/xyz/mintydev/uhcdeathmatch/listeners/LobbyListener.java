@@ -25,9 +25,8 @@ public class LobbyListener implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		
-		// set lobby & create scoreboard
+		// set lobby
 		main.getGameManager().setLobby(player);
-		main.getScoreboardManager().createScoreboard(player);
 	}
 	
 	@EventHandler

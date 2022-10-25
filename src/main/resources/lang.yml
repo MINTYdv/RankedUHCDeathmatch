@@ -22,6 +22,33 @@ scoreboards:
     - '&fIn Game: &b%ingame%'
     - ''
     - '&7uhcdm.ca'
+  game:
+    waiting:
+      content:
+        - '&7In Game'
+        - ''
+        - '&fPlayers: &e%players%/4'
+        - '&f%status%'
+        - ''
+        - '&7uhcdm.ca'
+      timer: "Starting in &e%seconds% second(s)"
+    running:
+      content:
+        - '&7In Game'
+        - ''
+        - '&fShrinks in &e%timer%'
+        - '&fKills: &e%kills%'
+        - '&fAlive: &a%alive% player(s)'
+        - ''
+        - '&7uhcdm.ca'
+    finished:
+      content:
+        - '&7Game finished'
+        - ''
+        - '&fKills: &e%kills%'
+        - ''
+        - '&7uhcdm.ca'
+
 misc:
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
 gui:

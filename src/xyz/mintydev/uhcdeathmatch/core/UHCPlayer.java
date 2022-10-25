@@ -11,6 +11,8 @@ public class UHCPlayer {
 	private Location previousLocation;
 	private Location spawnLocation;
 	
+	private int kills = 0;
+	
 	public UHCPlayer(Player player) {
 		this.player = player;
 		this.state = PlayerState.LOBBY;
@@ -19,6 +21,18 @@ public class UHCPlayer {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public int getKills() {
+		return kills;
+	}
+	
+	public void addKill() {
+		kills++;
+	}
+	
+	public void setKills(int kills) {
+		this.kills = kills;
+	}
 	
 	public Location getSpawnLocation() {
 		return spawnLocation;

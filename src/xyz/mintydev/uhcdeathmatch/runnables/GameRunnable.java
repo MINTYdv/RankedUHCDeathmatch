@@ -1,5 +1,6 @@
 package xyz.mintydev.uhcdeathmatch.runnables;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,7 +20,6 @@ public class GameRunnable extends BukkitRunnable {
 	}
 	
 	private void handleGame(UHCGame game) {
-		
 		// WAITING
 		if(game.getState() == GameState.WAITING) {
 			for(Player player : game.getPlayers()) {
@@ -35,6 +35,8 @@ public class GameRunnable extends BukkitRunnable {
 	
 	@Override
 	public void run() {
+		for(Player player : Bukkit.getOnlinePlayers()) main.getScoreboardManager().updateScoreboard(player);
+		
 		for(UHCMode mode : main.getGameManager().getModes()) {
 			for(UHCGame game : main.getGameManager().getGames(mode)) {
 				handleGame(game);
