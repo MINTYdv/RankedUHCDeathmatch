@@ -24,6 +24,7 @@ import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 import xyz.mintydev.uhcdeathmatch.core.modes.ClassicMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.NodebuffMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
+import xyz.mintydev.uhcdeathmatch.runnables.GameRunnable;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 
 public class GameManager {
@@ -47,6 +48,9 @@ public class GameManager {
 			}
 		}
 		System.out.println("Created " + this.games.size() + " games");
+		
+		// register runnable
+		new GameRunnable(main).runTaskTimer(main, 0, 20);
 	}
 	
 	public UHCGame getGame(Player player) {

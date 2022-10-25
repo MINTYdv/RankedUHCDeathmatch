@@ -13,6 +13,8 @@ items:
   modes:
     uhc: "&6&lUHC"
     nodebuff: "&c&lNoDebuff"
+misc:
+  leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
 gui:
   mode-select:
     title: "&6&lSelect a mode"
