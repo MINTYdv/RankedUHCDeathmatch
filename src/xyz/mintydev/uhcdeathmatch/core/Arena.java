@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+
 public class Arena {
 
 	private boolean used = false;
@@ -30,7 +32,10 @@ public class Arena {
 		final int index = teleported.size();
 		
 		teleported.add(player);
-		player.teleport(playersPositions.get(index));
+		final Location loc = playersPositions.get(index);
+		player.teleport(loc);
+		final UHCPlayer uPlayer = UHCDeathMatch.get().getPlayersManager().getPlayer(player);
+		uPlayer.setSpawnLocation(loc);
 	}
 	
 	public void removePlayer(Player player) {

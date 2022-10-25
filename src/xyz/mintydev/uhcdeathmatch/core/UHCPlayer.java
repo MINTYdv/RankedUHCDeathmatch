@@ -9,6 +9,7 @@ public class UHCPlayer {
 	private PlayerState state;
 	
 	private Location previousLocation;
+	private Location spawnLocation;
 	
 	public UHCPlayer(Player player) {
 		this.player = player;
@@ -18,6 +19,14 @@ public class UHCPlayer {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public Location getSpawnLocation() {
+		return spawnLocation;
+	}
+	
+	public void setSpawnLocation(Location spawnLocation) {
+		this.spawnLocation = spawnLocation;
+	}
 	
 	public Location getPreviousLocation() {
 		return previousLocation;

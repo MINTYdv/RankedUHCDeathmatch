@@ -37,8 +37,8 @@ public class GameManager {
 		this.main = main;
 		
 		// create modes
-		modes.add(new ClassicMode());
 		modes.add(new NodebuffMode());
+		modes.add(new ClassicMode());
 		
 		// create games
 		for(UHCMode mode : modes) {
@@ -63,6 +63,10 @@ public class GameManager {
 		UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
 		uhcPlayer.setState(PlayerState.LOBBY);
 		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
+		
+		player.setWalkSpeed(0.2f);
+		
 		player.setFoodLevel(20);
 		player.setHealth(player.getMaxHealth());
 		if(uhcPlayer.getPreviousLocation() != null) {
@@ -90,33 +94,12 @@ public class GameManager {
 		player.setHealth(player.getMaxHealth());
 		player.setGameMode(GameMode.SURVIVAL);
 		
+		player.setWalkSpeed(0.0f);
+		
 		// give stuff
 		player.getInventory().clear();
 
-		player.getInventory().setItem(0, ItemBuilder.getEnchantedItem(Material.DIAMOND_SWORD,
-				new UHCEnchant(Enchantment.DAMAGE_ALL, 2)));
-		player.getInventory().setItem(1, ItemBuilder.createItem(Material.FISHING_ROD, 1, null, null));
-		
-		player.getInventory().setItem(2, ItemBuilder.createItem(Material.BOW, 1, null, null));
-		player.getInventory().setItem(4, ItemBuilder.createItem(Material.GOLDEN_APPLE, 20, null, null));
-		
-		player.getInventory().setItem(4, ItemBuilder.createItem(Material.GOLDEN_APPLE, 20, null, null));
-		player.getInventory().setItem(5, ItemBuilder.getGhead(4));
-		
-		player.getInventory().setItem(6, ItemBuilder.createItem(Material.WATER_BUCKET, 1, null, null));
-		player.getInventory().setItem(33, ItemBuilder.createItem(Material.WATER_BUCKET, 1, null, null));
-		player.getInventory().setItem(24, ItemBuilder.createItem(Material.WATER_BUCKET, 1, null, null));
-		player.getInventory().setItem(7, ItemBuilder.createItem(Material.LAVA_BUCKET, 1, null, null));
-		player.getInventory().setItem(34, ItemBuilder.createItem(Material.LAVA_BUCKET, 1, null, null));
-		player.getInventory().setItem(25, ItemBuilder.createItem(Material.LAVA_BUCKET, 1, null, null));
-		player.getInventory().setItem(16, ItemBuilder.createItem(Material.LAVA_BUCKET, 1, null, null));
-		player.getInventory().setItem(8, ItemBuilder.createItem(Material.COBBLESTONE, 64, null, null));
-		player.getInventory().setItem(35, ItemBuilder.createItem(Material.WOOD, 64, null, null));
-		
-		player.getInventory().setItem(9, ItemBuilder.createItem(Material.COOKED_BEEF, 64, null, null));
-		player.getInventory().setItem(10, ItemBuilder.createItem(Material.DIAMOND_PICKAXE, 1, null, null));
-		player.getInventory().setItem(18, ItemBuilder.createItem(Material.ARROW, 14, null, null));
-		player.getInventory().setItem(19, ItemBuilder.createItem(Material.DIAMOND_AXE, 1, null, null));
+		game.getMode().giveKit(player);
 		
 		final ItemStack helmet = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
 				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),

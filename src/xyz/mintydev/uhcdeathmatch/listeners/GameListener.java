@@ -1,5 +1,6 @@
 package xyz.mintydev.uhcdeathmatch.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,13 +11,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.util.Vector;
+import org.bukkit.inventory.ItemStack;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
+import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 
 public class GameListener implements Listener {
 
@@ -27,19 +29,39 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
+	public void onGheadUse(PlayerInteractEvent e) {
+		final Player player = e.getPlayer();
+		final ItemStack item = e.getItem();
+		if(item == null) return;
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(e.getPlayer());
+		if(uPlayer.getState() != PlayerState.PLAYING) return;
+		
+		final UHCGame game = main.getGameManager().getGame(player);
+		if(game == null || game.getState() != GameState.RUNNING) return;
+		
+		if(item.equals(ItemBuilder.getGhead(item.getAmount()))) {
+			// used ghead
+			Bukkit.broadcastMessage("tt");
+		}
+	}
+	
+	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
 		final Player player = e.getPlayer();
-		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(e.getPlayer());
+		
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
 		if(uPlayer.getState() != PlayerState.PLAYING) return;
 		
 		final UHCGame game = main.getGameManager().getGame(player);
 		if(game == null) return;
 		
-		final Location to = e.getTo();
-		final Location from = e.getFrom();
+		if(game.getState() != GameState.WAITING) return;
 		
-		if(game.getState() != GameState.RUNNING) {
-			player.setVelocity(new Vector().zero());
+		final Location initial = uPlayer.getSpawnLocation();
+		if(e.getTo().getX() != initial.getX()
+				|| e.getTo().getY() > initial.getY()
+				|| e.getTo().getZ() != initial.getZ()) {
+			player.teleport(new Location(initial.getWorld(), initial.getX(), initial.getY(), initial.getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
 		}
 	}
 	
