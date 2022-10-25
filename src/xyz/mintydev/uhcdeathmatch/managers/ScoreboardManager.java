@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.mrmicky.fastboard.FastBoard;
@@ -55,6 +56,7 @@ public class ScoreboardManager {
 			if(game.getState() == GameState.WAITING) {
 				for(String str : Lang.getList("scoreboards.game.waiting.content")) {
 					str = str.replaceAll("%players%", game.getPlayers().size()+"");
+					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					
 					String status = "§fWaiting for players..";
@@ -72,6 +74,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
+					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					lines.add(str);
 				}
 			} else if(game.getState() == GameState.FINISHED) {
@@ -80,6 +83,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
+					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					lines.add(str);
 				}
 			}

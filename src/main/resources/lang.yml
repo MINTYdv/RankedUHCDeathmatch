@@ -30,6 +30,7 @@ scoreboards:
       content:
         - '&7In Game'
         - ''
+        - '&fMode: &e%mode%'
         - '&fPlayers: &e%players%/4'
         - '&f%status%'
         - ''
@@ -39,6 +40,7 @@ scoreboards:
       content:
         - '&7In Game'
         - ''
+        - '&fMode: &e%mode%'
         - '&fShrinks in &e%timer%'
         - '&fKills: &e%kills%'
         - '&fAlive: &a%alive% player(s)'
@@ -48,6 +50,7 @@ scoreboards:
       content:
         - '&7Game finished'
         - ''
+        - '&fMode: &e%mode%'
         - '&fKills: &e%kills%'
         - ''
         - '&7uhcdm.ca'
