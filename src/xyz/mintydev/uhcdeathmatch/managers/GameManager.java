@@ -129,6 +129,11 @@ public class GameManager {
 			game.getArena().removePlayer(player);
 		}
 		
+		game.getPlayers().remove(player);
+		if(game.getAlivePlayers().contains(player)) {
+			game.getAlivePlayers().remove(player);
+		}
+		
 		setLobby(player);
 	}
 	

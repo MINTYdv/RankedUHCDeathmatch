@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.mintydev.uhcdeathmatch.cmd.LeaveCommand;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
@@ -42,8 +43,15 @@ public class UHCDeathMatch extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new LobbyListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
 		this.getServer().getPluginManager().registerEvents(this.guiManager, this);
+		
+		// commands
+		registerCommands();
 	}
 	
+	private void registerCommands() {
+		getCommand("leave").setExecutor(new LeaveCommand(this));
+	}
+
 	@Override
 	public void onDisable() {
 		// end all games

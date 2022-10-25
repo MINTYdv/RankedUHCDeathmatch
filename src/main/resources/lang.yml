@@ -1,3 +1,11 @@
+errors:
+  commands:
+    player-only: "&cThis command can only be executed by a player."
+    no-game: "&cYou must be in a game to use this command."
+commands:
+  leave:
+    success: "&aYou successfully left your previous game."
+    running: "&cYou can't leave a running game."
 items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
