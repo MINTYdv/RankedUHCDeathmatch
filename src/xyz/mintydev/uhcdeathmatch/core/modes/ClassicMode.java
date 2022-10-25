@@ -17,8 +17,10 @@ public class ClassicMode extends UHCMode {
 
 	@Override
 	public void giveKit(Player player) {
-		player.getInventory().setItem(0, ItemBuilder.getEnchantedItem(Material.DIAMOND_SWORD,
-				new UHCEnchant(Enchantment.DAMAGE_ALL, 2)));
+		final ItemStack sword = ItemBuilder.getEnchantedItem(Material.DIAMOND_SWORD,
+				new UHCEnchant(Enchantment.DAMAGE_ALL, 2));
+		
+		player.getInventory().setItem(0, sword);
 		player.getInventory().setItem(1, ItemBuilder.createItem(Material.FISHING_ROD, 1, null, null));
 		
 		player.getInventory().setItem(2, ItemBuilder.getEnchantedItem(Material.BOW,

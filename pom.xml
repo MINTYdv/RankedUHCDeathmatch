@@ -40,6 +40,13 @@
 	
                                 </includes>
                             </artifactSet>
+			                <relocations>
+			                    <relocation>
+			                        <pattern>fr.mrmicky.fastboard</pattern>
+			                        <!-- Replace 'com.yourpackage' with the package of your plugin ! -->
+			                        <shadedPattern>xyz.mintydev.uhcdeathmatch.fastboard</shadedPattern>
+			                    </relocation>
+			                </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -48,6 +55,12 @@
     </build>
 
 	<dependencies>
+		<!-- FastBoard -->
+	    <dependency>
+	        <groupId>fr.mrmicky</groupId>
+	        <artifactId>fastboard</artifactId>
+	        <version>1.2.1</version>
+	    </dependency>
 		<!-- Spigot -->
         <dependency>
             <groupId>spigot-1.8.9</groupId>

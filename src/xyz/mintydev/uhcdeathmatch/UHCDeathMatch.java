@@ -14,6 +14,7 @@ import xyz.mintydev.uhcdeathmatch.listeners.LobbyListener;
 import xyz.mintydev.uhcdeathmatch.managers.ArenaManager;
 import xyz.mintydev.uhcdeathmatch.managers.GameManager;
 import xyz.mintydev.uhcdeathmatch.managers.PlayersManager;
+import xyz.mintydev.uhcdeathmatch.managers.ScoreboardManager;
 import xyz.mintydev.uhcdeathmatch.util.gui.UHCGuiManager;
 
 public class UHCDeathMatch extends JavaPlugin {
@@ -23,6 +24,7 @@ public class UHCDeathMatch extends JavaPlugin {
 	private PlayersManager playersManager;
 	private GameManager gameManager;
 	private ArenaManager arenaManager;
+	private ScoreboardManager scoreboardManager;
 	
 	private UHCGuiManager guiManager;
 	
@@ -36,6 +38,7 @@ public class UHCDeathMatch extends JavaPlugin {
 		this.playersManager = new PlayersManager();
 		this.arenaManager = new ArenaManager(this);
 		this.gameManager = new GameManager(this);
+		this.scoreboardManager = new ScoreboardManager(this);
 		
 		this.guiManager = new UHCGuiManager(this);
 		
@@ -77,6 +80,10 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	public PlayersManager getPlayersManager() {
 		return playersManager;
+	}
+	
+	public ScoreboardManager getScoreboardManager() {
+		return scoreboardManager;
 	}
 	
 	public GameManager getGameManager() {

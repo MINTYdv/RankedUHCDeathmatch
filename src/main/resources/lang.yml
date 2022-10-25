@@ -13,6 +13,12 @@ items:
   modes:
     uhc: "&6&lUHC"
     nodebuff: "&c&lNoDebuff"
+scoreboards:
+  title: '&6&l'
+  hub:
+    - ''
+    - ''
+    - ''
 misc:
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
 gui:
