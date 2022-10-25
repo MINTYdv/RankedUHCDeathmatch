@@ -14,11 +14,14 @@ items:
     uhc: "&6&lUHC"
     nodebuff: "&c&lNoDebuff"
 scoreboards:
-  title: '&6&l'
+  title: '&6&lDEATCHMATCH'
   hub:
+    - '&7Hub'
     - ''
+    - '&fOnline: &b%online%'
+    - '&fIn Game: &b%ingame%'
     - ''
-    - ''
+    - '&7uhcdm.ca'
 misc:
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
 gui:

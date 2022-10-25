@@ -53,6 +53,16 @@ public class GameManager {
 		new GameRunnable(main).runTaskTimer(main, 0, 20);
 	}
 	
+	public int getAmountofIngamePlayers() {
+		int res = 0;
+		for(UHCMode mode : this.modes) {
+			for(UHCGame game : getGames(mode)) {
+				res += game.getPlayers().size();
+			}
+		}
+		return res;
+	}
+	
 	public UHCGame getGame(Player player) {
 		for(Entry<UHCMode, List<UHCGame>> entry : games.entrySet()) {
 			for(UHCGame game : entry.getValue()) {

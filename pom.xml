@@ -37,16 +37,9 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-	
+		                        	<include>fr.mrmicky:fastboard</include>
                                 </includes>
                             </artifactSet>
-			                <relocations>
-			                    <relocation>
-			                        <pattern>fr.mrmicky.fastboard</pattern>
-			                        <!-- Replace 'com.yourpackage' with the package of your plugin ! -->
-			                        <shadedPattern>xyz.mintydev.uhcdeathmatch.fastboard</shadedPattern>
-			                    </relocation>
-			                </relocations>
                         </configuration>
                     </execution>
                 </executions>
