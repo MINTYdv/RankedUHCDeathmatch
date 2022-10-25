@@ -5,8 +5,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
+import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
+import xyz.mintydev.uhcdeathmatch.util.UHCUtil;
 
 public class GameRunnable extends BukkitRunnable {
 
@@ -18,13 +20,17 @@ public class GameRunnable extends BukkitRunnable {
 	
 	private void handleGame(UHCGame game) {
 		
+		// WAITING
 		if(game.getState() == GameState.WAITING) {
 			for(Player player : game.getPlayers()) {
 				// send actionbar
-				
+				UHCUtil.sendActionText(player, Lang.get("misc.leave-actionbar"));
 			}
 		}
 		
+		// RUNNING
+		
+		// FINISHED
 	}
 	
 	@Override
