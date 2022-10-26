@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -154,7 +155,12 @@ public class GameManager {
 	
 	public void startGame(UHCGame game) {
 		if(game == null || game.getState() != GameState.WAITING) return;
+	
+		for(Player player : game.getPlayers()) {
+			player.setWalkSpeed(0.2f);
+		}
 		
+		game.setState(GameState.RUNNING);
 		game.getAlivePlayers().addAll(game.getPlayers());
 	}
 	
@@ -199,8 +205,13 @@ public class GameManager {
 			block.setType(Material.AIR);
 		}
 		
+		for(Entry<Location, Material> entry : game.getBrokenBlocks().entrySet()) {
+			entry.getKey().getWorld().getBlockAt(entry.getKey()).setType(entry.getValue());
+		}
+		
 		// clear players
 		game.getPlacedBlocks().clear();
+		game.getBrokenBlocks().clear();
 		game.getPlayers().clear();
 		game.getAlivePlayers().clear();
 	}

@@ -32,6 +32,8 @@ public class UHCDeathMatch extends JavaPlugin {
 	public void onEnable() {
 		this.getLogger().info("Plugin is now enabled.");
 		
+		saveDefaultConfig();
+		
 		// managers
 		instance = this;
 		new Lang(this);

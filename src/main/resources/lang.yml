@@ -57,6 +57,9 @@ scoreboards:
 
 misc:
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
+  timer-actionbar: "&fThe game is starting in &e%timer% second(s)&f..."
+  title-starting: "&fStarting in &e%timer%&f.."
+  title-fight: "&c&lFIGHT!"
 gui:
   mode-select:
     title: "&6&lSelect a mode"

@@ -2,6 +2,7 @@ package xyz.mintydev.uhcdeathmatch.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -119,7 +120,26 @@ public class GameListener implements Listener {
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
 		if(uPlayer.getState() != PlayerState.PLAYING) return;
 		
-		e.setCancelled(true);
+		final UHCGame game = main.getGameManager().getGame(player);
+		if(game == null) return;
+		
+		if(game.getState() != GameState.RUNNING) {
+			e.setCancelled(true);
+			Bukkit.broadcastMessage("block");
+			return;
+		}
+		
+		final Block block = e.getBlock();
+		Bukkit.broadcastMessage(block.getType().toString());
+		if(block.getType().toString().toUpperCase().contains("LEAVES")
+				|| block.getType().toString().toUpperCase().contains("LOG")
+				|| block.getType().toString().toUpperCase().contains("SNOW")) {
+
+			game.getBrokenBlocks().put(block.getLocation(), block.getType());
+			
+		} else {
+			e.setCancelled(true);
+		}
 	}
 	
 	@EventHandler

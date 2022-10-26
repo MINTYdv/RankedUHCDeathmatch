@@ -1,8 +1,12 @@
 package xyz.mintydev.uhcdeathmatch.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -13,6 +17,7 @@ public class UHCGame {
 	private final UHCMode mode;
 	private GameState state;
 	
+	private Map<Location, Material> brokenBlocks = new HashMap<>();
 	private List<Block> placedBlocks = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
 	private List<Player> alivePlayers = new ArrayList<>();
@@ -43,6 +48,10 @@ public class UHCGame {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public Map<Location, Material> getBrokenBlocks() {
+		return brokenBlocks;
+	}
 	
 	public int getStartTimer() {
 		return startTimer;
