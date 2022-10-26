@@ -40,7 +40,7 @@ public class GameRunnable extends BukkitRunnable {
 			}
 			
 			// start the timer
-			if(canStart && game.getStartTimer() < 0) game.setStartTimer(30);
+			if(canStart && game.getStartTimer() < 0) game.setStartTimer(main.getConfig().getInt("settings.timer"));
 
 			if(canStart && game.getStartTimer() > 0) {
 				// remove one second from timer

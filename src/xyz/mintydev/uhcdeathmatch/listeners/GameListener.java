@@ -8,12 +8,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
@@ -21,6 +24,7 @@ import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
+import xyz.mintydev.uhcdeathmatch.util.UHCUtil;
 
 public class GameListener implements Listener {
 
@@ -28,6 +32,24 @@ public class GameListener implements Listener {
 	
 	public GameListener(UHCDeathMatch main) {
 		this.main = main;
+	}
+	
+	@EventHandler
+	public void onDeath(EntityDamageByEntityEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		if(!(e.getDamager() instanceof Player)) return;
+		
+		final Player killer = (Player) e.getDamager();
+		final Player victim = (Player) e.getEntity();
+		
+		Bukkit.broadcastMessage("killed");
+		
+		final UHCGame game = main.getGameManager().getGame(killer);
+		if(game == null || game.getState() != GameState.RUNNING) return;
+		
+		if(victim.getHealth() <= 0 || victim.isDead()) {
+			main.getGameManager().playerKill(game, victim, killer);
+		}
 	}
 	
 	@EventHandler
@@ -43,7 +65,9 @@ public class GameListener implements Listener {
 		
 		if(item.equals(ItemBuilder.getGhead(item.getAmount()))) {
 			// used ghead
-			Bukkit.broadcastMessage("tt");
+			UHCUtil.removeOne(player, item);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12*20, 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 2));
 		}
 	}
 	

@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
@@ -39,8 +40,8 @@ public class GameManager {
 		this.main = main;
 		
 		// create modes
-		modes.add(new NodebuffMode());
 		modes.add(new ClassicMode());
+		modes.add(new NodebuffMode());
 		
 		// create games
 		for(UHCMode mode : modes) {
@@ -88,9 +89,33 @@ public class GameManager {
 			player.teleport(uhcPlayer.getPreviousLocation());
 		}
 		
+		if(player.hasPotionEffect(PotionEffectType.REGENERATION)) {
+			player.removePotionEffect(PotionEffectType.REGENERATION);
+		}
+		if(player.hasPotionEffect(PotionEffectType.SPEED)) {
+			player.removePotionEffect(PotionEffectType.SPEED);
+		}
+		
 		// set items
 		final ItemStack swordItem = ItemBuilder.createItem(Material.DIAMOND_SWORD, 1, Lang.get("items.sword"), new ArrayList<>());
 		player.getInventory().setItem(0, swordItem);
+	}
+	
+	public void playerKill(UHCGame game, Player victim, Player killer) {
+		if(!(game.getAlivePlayers().contains(victim))) return;
+		
+		// spectator
+		game.getAlivePlayers().remove(victim);
+		victim.spigot().respawn();
+		victim.setGameMode(GameMode.SPECTATOR);
+		
+		// set spectator
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(victim);
+		uPlayer.setState(PlayerState.SPECTATOR);
+		
+		// add kill to player
+		final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
+		uKiller.addKill();
 	}
 	
 	public void joinGame(Player player, UHCGame game) {
