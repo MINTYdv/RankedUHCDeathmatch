@@ -84,6 +84,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
+					str = str.replaceAll("%winner%", game.getWinnerName());
 					lines.add(str);
 				}
 			}

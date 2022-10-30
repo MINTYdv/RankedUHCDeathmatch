@@ -14,6 +14,7 @@ items:
     uhc: "&6&lUHC"
     nodebuff: "&c&lNoDebuff"
 game:
+  winner: "&6&lWINNER&f: %winner% &7- &fCongrats!"
   errors:
     not-enough-players: "&cA player left so the game will not start. Timer resetted."
 scoreboards:
@@ -50,12 +51,21 @@ scoreboards:
       content:
         - '&7Game finished'
         - ''
+        - '&fWinner: &a%winner%'
+        - ''
         - '&fMode: &e%mode%'
         - '&fKills: &e%kills%'
         - ''
         - '&7uhcdm.ca'
-
+titles:
+  victory:
+    title: "&6&lVICTORY"
+    subtitle: "&fYou won the game!"
+  death:
+    title: "&c&lDEAD"
+    subtitle: "&fYou have been killed!"
 misc:
+  kill: "&c%victim% &7was killed by &c%killer%"
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
   timer-actionbar: "&fThe game is starting in &e%timer% second(s)&f..."
   title-starting: "&fStarting in &e%timer%&f.."

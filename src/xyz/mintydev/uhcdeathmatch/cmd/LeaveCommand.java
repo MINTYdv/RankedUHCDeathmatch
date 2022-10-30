@@ -8,7 +8,9 @@ import org.bukkit.entity.Player;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
+import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
+import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 
 public class LeaveCommand implements CommandExecutor {
 
@@ -34,7 +36,8 @@ public class LeaveCommand implements CommandExecutor {
 		}
 		
 		final UHCGame game = main.getGameManager().getGame(player);
-		if(game.getState() == GameState.RUNNING) {
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
+		if(uPlayer.getState() != PlayerState.SPECTATOR && game.getState() == GameState.RUNNING) {
 			sender.sendMessage(Lang.get("commands.leave.running"));
 			return false;
 		}

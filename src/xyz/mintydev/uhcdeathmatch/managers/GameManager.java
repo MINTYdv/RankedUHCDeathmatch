@@ -9,11 +9,13 @@ import java.util.Map.Entry;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
@@ -28,6 +30,7 @@ import xyz.mintydev.uhcdeathmatch.core.modes.NodebuffMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.runnables.GameRunnable;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
+import xyz.mintydev.uhcdeathmatch.util.TitleUtil;
 
 public class GameManager {
 
@@ -101,14 +104,17 @@ public class GameManager {
 		player.getInventory().setItem(0, swordItem);
 	}
 	
-	public void playerKill(UHCGame game, Player victim, Player killer) {
+	public void playerKill(UHCGame game, Player victim, Player killer, List<ItemStack> drops) {
 		if(!(game.getAlivePlayers().contains(victim))) return;
 		
-		// spectator
 		game.getAlivePlayers().remove(victim);
-		victim.spigot().respawn();
-		victim.setGameMode(GameMode.SPECTATOR);
+		// spawn chest
+		main.getDeathChestManager().spawnDeathChest(victim, victim.getLocation(), drops);
 		
+		TitleUtil.sendTitle(victim, 0, 20*3, 10, Lang.get("titles.death.title"), Lang.get("titles.death.subtitle"));
+		victim.playSound(victim.getLocation(), Sound.VILLAGER_HIT, 1, 1);
+		killer.playSound(victim.getLocation(), Sound.VILLAGER_HIT, 1, 1);
+
 		// set spectator
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(victim);
 		uPlayer.setState(PlayerState.SPECTATOR);
@@ -116,6 +122,18 @@ public class GameManager {
 		// add kill to player
 		final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
 		uKiller.addKill();
+		
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				// spectator
+				victim.spigot().respawn();
+				victim.setGameMode(GameMode.SPECTATOR);
+			}
+			
+		}.runTask(main);
+
 	}
 	
 	public void joinGame(Player player, UHCGame game) {
@@ -193,8 +211,29 @@ public class GameManager {
 		for(Player player : game.getPlayers()) {
 			setLobby(player);
 		}
+		main.getDeathChestManager().resetChests(game);
 		
 		resetGame(game);
+	}
+	
+	public void winGame(UHCGame game, Player winner) {
+		if(game.getState() != GameState.RUNNING) return;
+		
+		game.setState(GameState.FINISHED);
+		winner.setHealth(winner.getMaxHealth());
+		game.setWinnerName(winner.getName());
+		
+		TitleUtil.sendTitle(winner, 0, 20*3, 10, Lang.get("titles.victory.title"), Lang.get("titles.victory.subtitle"));
+		game.broadcastMessage(Lang.get("game.winner").replaceAll("%winner%", game.getWinnerName()));
+		
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				endGame(game);
+			}
+
+		}.runTaskLater(main, 20L*5);
 	}
 	
 	private void createNewGame(UHCMode mode) {

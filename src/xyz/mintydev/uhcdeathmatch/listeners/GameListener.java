@@ -1,15 +1,19 @@
 package xyz.mintydev.uhcdeathmatch.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -20,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
+import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
@@ -35,21 +40,23 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onDeath(EntityDamageByEntityEvent e) {
-		if(!(e.getEntity() instanceof Player)) return;
-		if(!(e.getDamager() instanceof Player)) return;
-		
-		final Player killer = (Player) e.getDamager();
-		final Player victim = (Player) e.getEntity();
-		
-		Bukkit.broadcastMessage("killed");
+	public void onDeath(PlayerDeathEvent e) {
+		final Player victim = e.getEntity();
+		final Player killer = victim.getKiller();
+		if(killer == null) return;
 		
 		final UHCGame game = main.getGameManager().getGame(killer);
 		if(game == null || game.getState() != GameState.RUNNING) return;
+		if(main.getGameManager().getGame(victim) == null) return;
 		
-		if(victim.getHealth() <= 0 || victim.isDead()) {
-			main.getGameManager().playerKill(game, victim, killer);
-		}
+		List<ItemStack> drops = new ArrayList<>();
+		drops.addAll(e.getDrops());
+		
+		main.getGameManager().playerKill(game, victim, killer, drops);
+		e.setDeathMessage(null);
+		game.broadcastMessage(Lang.get("misc.kill").replaceAll("%victim%", victim.getName()).replaceAll("%killer%", killer.getName()));
+
+		e.getDrops().clear();
 	}
 	
 	@EventHandler
@@ -132,7 +139,7 @@ public class GameListener implements Listener {
 		final UHCGame game = main.getGameManager().getGame(player);
 		if(game == null) return;
 		
-		if(game.getState() != GameState.RUNNING) {
+		if(game.getState() == GameState.WAITING) {
 			e.setCancelled(true);
 			return;
 		}
@@ -157,7 +164,8 @@ public class GameListener implements Listener {
 		Bukkit.broadcastMessage(block.getType().toString());
 		if(block.getType().toString().toUpperCase().contains("LEAVES")
 				|| block.getType().toString().toUpperCase().contains("LOG")
-				|| block.getType().toString().toUpperCase().contains("SNOW")) {
+				|| block.getType().toString().toUpperCase().contains("SNOW")
+				|| block.getType() == Material.LONG_GRASS) {
 
 			game.getBrokenBlocks().put(block.getLocation(), block.getType());
 			

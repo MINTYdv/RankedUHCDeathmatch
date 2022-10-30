@@ -21,6 +21,7 @@ public class UHCGame {
 	private List<Block> placedBlocks = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
 	private List<Player> alivePlayers = new ArrayList<>();
+	private String winnerName;
 	
 	private Arena arena;
 
@@ -35,6 +36,14 @@ public class UHCGame {
 		for(Player player : players) {
 			player.sendMessage(string);
 		}
+	}
+	
+	public String getWinnerName() {
+		return winnerName;
+	}
+	
+	public void setWinnerName(String winnerName) {
+		this.winnerName = winnerName;
 	}
 	
 	public Arena getArena() {

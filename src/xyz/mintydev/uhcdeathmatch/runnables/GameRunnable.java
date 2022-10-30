@@ -73,8 +73,11 @@ public class GameRunnable extends BukkitRunnable {
 		}
 		
 		// RUNNING
-		
-		// FINISHED
+		if(game.getAlivePlayers().size() == 1) {
+			final Player winner = game.getAlivePlayers().get(0);
+			main.getGameManager().winGame(game, winner);
+			return;
+		}
 	}
 	
 	@Override
