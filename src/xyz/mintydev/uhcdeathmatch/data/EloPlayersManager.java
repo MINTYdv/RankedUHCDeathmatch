@@ -138,7 +138,7 @@ public class EloPlayersManager {
 				final EloPlayer ePlayer = new EloPlayer();
 				ePlayer.setUUID(player.getUniqueId());
 				ePlayer.setUsername(player.getName());
-				ePlayer.setElo(main.getConfig().getInt("settings.defaultElo"));
+				ePlayer.setElo(main.getConfig().getInt("settings.elo.default"));
 				getEloPlayers().put(player.getUniqueId(), ePlayer);
 			}else {
 				// load from file

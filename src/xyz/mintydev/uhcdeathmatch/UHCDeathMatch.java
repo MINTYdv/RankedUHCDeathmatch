@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.mintydev.uhcdeathmatch.cmd.EloCommand;
 import xyz.mintydev.uhcdeathmatch.cmd.LeaveCommand;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
@@ -64,10 +65,12 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	private void registerCommands() {
 		getCommand("leave").setExecutor(new LeaveCommand(this));
+		getCommand("elo").setExecutor(new EloCommand(this));
 	}
 
 	@Override
 	public void onDisable() {
+		this.eloPlayersManager.saveAll();
 		// end all games
 		for(Entry<UHCMode, List<UHCGame>> entry : this.getGameManager().getGames().entrySet()) {
 			for(UHCGame game : entry.getValue())

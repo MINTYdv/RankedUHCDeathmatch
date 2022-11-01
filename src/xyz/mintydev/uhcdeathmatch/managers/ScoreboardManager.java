@@ -43,6 +43,7 @@ public class ScoreboardManager {
 			for(String str : Lang.getList("scoreboards.hub")) {
 				str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 				str = str.replaceAll("%ingame%", main.getGameManager().getAmountofIngamePlayers()+"");
+				str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
 				lines.add(str);
 			}
 			board.updateLines(lines);
@@ -58,6 +59,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%players%", game.getPlayers().size()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
+					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
 					
 					String status = "§fWaiting for players..";
 					if(game.getStartTimer() > 0) {
@@ -74,6 +76,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
+					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					lines.add(str);
 				}
@@ -84,6 +87,7 @@ public class ScoreboardManager {
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
+					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
 					str = str.replaceAll("%winner%", game.getWinnerName());
 					lines.add(str);
 				}

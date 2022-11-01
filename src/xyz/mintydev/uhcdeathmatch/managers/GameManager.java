@@ -28,6 +28,7 @@ import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 import xyz.mintydev.uhcdeathmatch.core.modes.ClassicMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.NodebuffMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
+import xyz.mintydev.uhcdeathmatch.data.EloPlayer;
 import xyz.mintydev.uhcdeathmatch.runnables.GameRunnable;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 import xyz.mintydev.uhcdeathmatch.util.TitleUtil;
@@ -48,7 +49,7 @@ public class GameManager {
 		
 		// create games
 		for(UHCMode mode : modes) {
-			for(int i = 1; i <= 8; i++) {
+			for(int i = 1; i <= main.getConfig().getInt("settings.games-per-mode"); i++) {
 				createNewGame(mode);
 			}
 		}
@@ -56,6 +57,24 @@ public class GameManager {
 		
 		// register runnable
 		new GameRunnable(main).runTaskTimer(main, 0, 20);
+	}
+	
+	public void addKillElo(Player player) {
+		final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(player);
+		ePlayer.addElo(main.getConfig().getInt("settings.elo.kill"));
+		player.sendMessage(Lang.get("elo-messages.kill"));
+	}
+	
+	public void addWinElo(Player player) {
+		final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(player);
+		ePlayer.addElo(main.getConfig().getInt("settings.elo.win"));
+		player.sendMessage(Lang.get("elo-messages.win"));
+	}
+	
+	public void removeDeathElo(Player player) {
+		final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(player);
+		ePlayer.removeElo(main.getConfig().getInt("settings.elo.death"));
+		player.sendMessage(Lang.get("elo-messages.death"));
 	}
 	
 	public int getAmountofIngamePlayers() {
@@ -86,6 +105,7 @@ public class GameManager {
 		
 		player.setWalkSpeed(0.2f);
 		
+		uhcPlayer.setLastDamager(null);
 		player.setFoodLevel(20);
 		player.setHealth(player.getMaxHealth());
 		if(uhcPlayer.getPreviousLocation() != null) {
@@ -122,6 +142,9 @@ public class GameManager {
 		// add kill to player
 		final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
 		uKiller.addKill();
+		
+		removeDeathElo(victim);
+		addKillElo(killer);
 		
 		new BukkitRunnable() {
 
@@ -218,6 +241,8 @@ public class GameManager {
 	
 	public void winGame(UHCGame game, Player winner) {
 		if(game.getState() != GameState.RUNNING) return;
+		
+		addWinElo(winner);
 		
 		game.setState(GameState.FINISHED);
 		winner.setHealth(winner.getMaxHealth());

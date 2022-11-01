@@ -17,10 +17,20 @@ game:
   winner: "&6&lWINNER&f: %winner% &7- &fCongrats!"
   errors:
     not-enough-players: "&cA player left so the game will not start. Timer resetted."
+commands:
+  elo:
+    usage-give: "&cUsage: /elo give <player> <amount>"
+    usage-remove: "&cUsage: /elo remove <player> <amount>"
+    usage-reset: "&cUsage: /relo reset <player>"
+    success: "&aThe elo has been edited successfully. New elo: %elo%"
+    error-player: "&cCouldn't find a player with the name of \"%name%\" !"
+    error-number: "&cInvalid number provided."
 scoreboards:
   title: '&6&lDEATCHMATCH'
   hub:
     - '&7Hub'
+    - ''
+    - '&fElo: &e%elo%'
     - ''
     - '&fOnline: &b%online%'
     - '&fIn Game: &b%ingame%'
@@ -64,6 +74,10 @@ titles:
   death:
     title: "&c&lDEAD"
     subtitle: "&fYou have been killed!"
+elo-messages:
+  win: "&a&l+20 ELO&7: &fVictory"
+  death: "&c&l-10 ELO&7: &fDeath"
+  kill: "&a&l+10 ELO&7: &fKill"
 misc:
   kill: "&c%victim% &7was killed by &c%killer%"
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
@@ -71,6 +85,13 @@ misc:
   title-starting: "&fStarting in &e%timer%&f.."
   title-fight: "&c&lFIGHT!"
 gui:
+  elo:
+    title: "&6&l%player% elo"
+    item-name: "&6%player%"
+    item-lore:
+      - ''
+      - '&fElo: &e%elo%'
+      - ''
   mode-select:
     title: "&6&lSelect a mode"
   game-select:

@@ -1,3 +1,8 @@
 settings:
   timer: 5
-  defaultElo: 1000
+  games-per-mode: 8
+  elo:
+    default: 1000
+    kill: 10
+    death: 10
+    win: 20

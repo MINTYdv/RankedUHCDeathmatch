@@ -7,6 +7,7 @@ public class UHCPlayer {
 
 	private Player player;
 	private PlayerState state;
+	private Player lastDamager;
 	
 	private Location previousLocation;
 	private Location spawnLocation;
@@ -21,6 +22,14 @@ public class UHCPlayer {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public Player getLastDamager() {
+		return lastDamager;
+	}
+	
+	public void setLastDamager(Player lastDamager) {
+		this.lastDamager = lastDamager;
+	}
 	
 	public int getKills() {
 		return kills;

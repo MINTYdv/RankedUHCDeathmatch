@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -191,7 +192,7 @@ public class GameListener implements Listener {
 		game.getPlacedBlocks().add(e.getBlock());
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onQuit(PlayerQuitEvent e) {
 		Player player = e.getPlayer();
 		
@@ -199,5 +200,13 @@ public class GameListener implements Listener {
 		if(game == null) return;
 		
 		main.getGameManager().leaveGame(player, game);
+		
+		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
+		if(uPlayer.getState() == PlayerState.PLAYING) {
+			if(uPlayer.getLastDamager() != null) {
+				// add elo to last damager
+				main.getGameManager().removeDeathElo(player);
+			}
+		}
 	}
 }
