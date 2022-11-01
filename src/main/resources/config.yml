@@ -1,2 +1,3 @@
 settings:
   timer: 5
+  defaultElo: 1000

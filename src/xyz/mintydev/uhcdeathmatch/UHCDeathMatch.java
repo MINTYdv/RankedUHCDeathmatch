@@ -9,7 +9,9 @@ import xyz.mintydev.uhcdeathmatch.cmd.LeaveCommand;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
+import xyz.mintydev.uhcdeathmatch.data.EloPlayersManager;
 import xyz.mintydev.uhcdeathmatch.deathchest.DeathChestManager;
+import xyz.mintydev.uhcdeathmatch.listeners.CoreListener;
 import xyz.mintydev.uhcdeathmatch.listeners.GameListener;
 import xyz.mintydev.uhcdeathmatch.listeners.LobbyListener;
 import xyz.mintydev.uhcdeathmatch.managers.ArenaManager;
@@ -23,6 +25,7 @@ public class UHCDeathMatch extends JavaPlugin {
 	private static UHCDeathMatch instance;
 
 	private PlayersManager playersManager;
+	private EloPlayersManager eloPlayersManager;
 	private GameManager gameManager;
 	private ArenaManager arenaManager;
 	private ScoreboardManager scoreboardManager;
@@ -40,6 +43,7 @@ public class UHCDeathMatch extends JavaPlugin {
 		instance = this;
 		new Lang(this);
 		this.playersManager = new PlayersManager();
+		this.eloPlayersManager = new EloPlayersManager(this);
 		this.arenaManager = new ArenaManager(this);
 		this.gameManager = new GameManager(this);
 		this.scoreboardManager = new ScoreboardManager(this);
@@ -50,6 +54,7 @@ public class UHCDeathMatch extends JavaPlugin {
 		// listeners
 		this.getServer().getPluginManager().registerEvents(new LobbyListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new CoreListener(this), this);
 		this.getServer().getPluginManager().registerEvents(this.guiManager, this);
 		this.getServer().getPluginManager().registerEvents(this.deathChestManager, this);
 		
@@ -94,6 +99,10 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	public ScoreboardManager getScoreboardManager() {
 		return scoreboardManager;
+	}
+	
+	public EloPlayersManager getEloPlayersManager() {
+		return eloPlayersManager;
 	}
 	
 	public GameManager getGameManager() {
