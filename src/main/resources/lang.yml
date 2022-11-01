@@ -6,6 +6,13 @@ commands:
   leave:
     success: "&aYou successfully left your previous game."
     running: "&cYou can't leave a running game."
+  elo:
+    usage-give: "&cUsage: /elo give <player> <amount>"
+    usage-remove: "&cUsage: /elo remove <player> <amount>"
+    usage-reset: "&cUsage: /relo reset <player>"
+    success: "&aThe elo has been edited successfully. New elo: %elo%"
+    error-player: "&cCouldn't find a player with the name of \"%name%\" !"
+    error-number: "&cInvalid number provided."
 items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
@@ -17,14 +24,6 @@ game:
   winner: "&6&lWINNER&f: %winner% &7- &fCongrats!"
   errors:
     not-enough-players: "&cA player left so the game will not start. Timer resetted."
-commands:
-  elo:
-    usage-give: "&cUsage: /elo give <player> <amount>"
-    usage-remove: "&cUsage: /elo remove <player> <amount>"
-    usage-reset: "&cUsage: /relo reset <player>"
-    success: "&aThe elo has been edited successfully. New elo: %elo%"
-    error-player: "&cCouldn't find a player with the name of \"%name%\" !"
-    error-number: "&cInvalid number provided."
 scoreboards:
   title: '&6&lDEATCHMATCH'
   hub:
