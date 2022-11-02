@@ -65,7 +65,6 @@ public class DeathChestManager implements Listener {
 
 			@Override
 			public void run() {
-		        Bukkit.broadcastMessage("filling with " + drops.size() + " items");
 		        Chest chest1 = (Chest) location.getBlock().getState();
 		        int i = 0;
 		        for(ItemStack it : drops) {

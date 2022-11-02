@@ -27,7 +27,7 @@ public class BorderRunnable extends BukkitRunnable {
 		final BorderStage stage = main.getBorderManager().getGamesStages().get(game);
 		final int stageID = stage.getId();
 		
-		if(main.getBorderManager().getStages().size() < stageID+1) {
+		if(main.getBorderManager().getStages().size() <= stageID+1) {
 			// no more stage
 			// final stage
 			timeUntilChange = -1;
@@ -40,12 +40,13 @@ public class BorderRunnable extends BukkitRunnable {
 			
 			if(timeUntilChange > 0) {
 				timeUntilChange--;
-			}
-			
-			if(timeUntilChange == 0) {
-				// change stage
-				main.getBorderManager().getGamesStages().remove(game);
-				main.getBorderManager().getGamesStages().put(game, nextStage);
+				
+				if(timeUntilChange == 0) {
+					// change stage
+					Bukkit.broadcastMessage("changing stage");
+					main.getBorderManager().getGamesStages().remove(game);
+					main.getBorderManager().getGamesStages().put(game, nextStage);
+				}
 			}
 			
 			main.getBorderManager().updateBorder(game);
