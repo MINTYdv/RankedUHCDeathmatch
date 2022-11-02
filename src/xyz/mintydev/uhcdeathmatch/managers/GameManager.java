@@ -226,6 +226,7 @@ public class GameManager {
 			player.setWalkSpeed(0.2f);
 		}
 		
+		main.getBorderManager().startGame(game);
 		game.setState(GameState.RUNNING);
 		game.getAlivePlayers().addAll(game.getPlayers());
 	}
@@ -282,6 +283,8 @@ public class GameManager {
 		}
 		game.setState(GameState.WAITING);
 		game.setStartTimer(-1);
+		
+		main.getBorderManager().endGame(game);
 		
 		// get arena
 		Arena arena = main.getArenaManager().getAvailableArea();

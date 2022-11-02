@@ -16,13 +16,15 @@ public class Arena {
 	
 	private final String name;
 	private final String worldName;
+	private final Location center;
 	private final List<Location> playersPositions;
 
 	private List<Player> teleported = new ArrayList<>();
 	
-	public Arena(String name, String worldName, List<Location> playersPositions) {
+	public Arena(String name, String worldName, Location center, List<Location> playersPositions) {
 		this.name = name;
 		this.worldName = worldName;
+		this.center = center;
 		this.playersPositions = playersPositions;
 	}
 	
@@ -58,6 +60,10 @@ public class Arena {
 	
 	public List<Location> getPlayersPositions() {
 		return playersPositions;
+	}
+	
+	public Location getCenter() {
+		return center;
 	}
 	
 	public boolean isUsed() {

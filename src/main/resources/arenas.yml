@@ -2,6 +2,12 @@ arenas:
   1:
     name: '&bArena 1'
     world: "arena1"
+    center:
+      x: 1.5
+      y: 4
+      z: 0.5
+      yaw: 90
+      pitch: -1.2
     players-pos:
       1:
         x: -28.5

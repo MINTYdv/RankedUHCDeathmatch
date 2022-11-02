@@ -19,6 +19,8 @@ import xyz.mintydev.uhcdeathmatch.managers.ArenaManager;
 import xyz.mintydev.uhcdeathmatch.managers.GameManager;
 import xyz.mintydev.uhcdeathmatch.managers.PlayersManager;
 import xyz.mintydev.uhcdeathmatch.managers.ScoreboardManager;
+import xyz.mintydev.uhcdeathmatch.managers.border.BorderManager;
+import xyz.mintydev.uhcdeathmatch.runnables.ScoreboardRunnable;
 import xyz.mintydev.uhcdeathmatch.util.gui.UHCGuiManager;
 
 public class UHCDeathMatch extends JavaPlugin {
@@ -31,6 +33,7 @@ public class UHCDeathMatch extends JavaPlugin {
 	private ArenaManager arenaManager;
 	private ScoreboardManager scoreboardManager;
 	private DeathChestManager deathChestManager;
+	private BorderManager borderManager;
 	
 	private UHCGuiManager guiManager;
 	
@@ -46,6 +49,7 @@ public class UHCDeathMatch extends JavaPlugin {
 		this.playersManager = new PlayersManager();
 		this.eloPlayersManager = new EloPlayersManager(this);
 		this.arenaManager = new ArenaManager(this);
+		this.borderManager = new BorderManager(this);
 		this.gameManager = new GameManager(this);
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.deathChestManager = new DeathChestManager(this);
@@ -57,10 +61,14 @@ public class UHCDeathMatch extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new CoreListener(this), this);
 		this.getServer().getPluginManager().registerEvents(this.guiManager, this);
+		this.getServer().getPluginManager().registerEvents(this.borderManager, this);
 		this.getServer().getPluginManager().registerEvents(this.deathChestManager, this);
 		
 		// commands
 		registerCommands();
+		
+		// runnables
+		new ScoreboardRunnable().runTaskTimer(this, 0, 10);
 	}
 	
 	private void registerCommands() {
@@ -72,9 +80,11 @@ public class UHCDeathMatch extends JavaPlugin {
 	public void onDisable() {
 		this.eloPlayersManager.saveAll();
 		// end all games
-		for(Entry<UHCMode, List<UHCGame>> entry : this.getGameManager().getGames().entrySet()) {
-			for(UHCGame game : entry.getValue())
-				gameManager.endGame(game);
+		if(this.getGameManager().getGames() != null && this.getGameManager().getGames().entrySet().size() > 0) {
+			for(Entry<UHCMode, List<UHCGame>> entry : this.getGameManager().getGames().entrySet()) {
+				for(UHCGame game : entry.getValue())
+					gameManager.endGame(game);
+			}
 		}
 		
 		this.getLogger().info("Plugin is now disabled.");
@@ -102,6 +112,10 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	public ScoreboardManager getScoreboardManager() {
 		return scoreboardManager;
+	}
+	
+	public BorderManager getBorderManager() {
+		return borderManager;
 	}
 	
 	public EloPlayersManager getEloPlayersManager() {

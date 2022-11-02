@@ -78,6 +78,13 @@ public class ScoreboardManager {
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
 					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
+					
+					final int timer = main.getBorderManager().getBorderRunnables().get(game).getTimeUntilChange();
+					
+					final String timerString = timer >= 0 ? Lang.get("scoreboards.game.running.shrink.timer").replace("%timer%", timer+"") : Lang.get("scoreboards.game.running.shrink.final");
+					
+					str = str.replaceAll("%shrink%", timerString);
+					
 					lines.add(str);
 				}
 			} else if(game.getState() == GameState.FINISHED) {

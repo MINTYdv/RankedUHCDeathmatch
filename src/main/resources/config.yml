@@ -6,3 +6,13 @@ settings:
     kill: 10
     death: 10
     win: 20
+  border:
+    0:
+      timer: 0
+      size: 100
+    1:
+      timer: 5
+      size: 50
+    2:
+      timer: 5
+      size: 20

@@ -51,11 +51,14 @@ scoreboards:
         - '&7In Game'
         - ''
         - '&fMode: &e%mode%'
-        - '&fShrinks in &e%timer%'
+        - '%shrink%'
         - '&fKills: &e%kills%'
         - '&fAlive: &a%alive% player(s)'
         - ''
         - '&7uhcdm.ca'
+      shrink:
+        timer: "&fShrinks in &e%timer%"
+        final: "&fBorder: &cFinal Stage"
     finished:
       content:
         - '&7Game finished'

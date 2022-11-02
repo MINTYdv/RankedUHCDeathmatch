@@ -82,8 +82,6 @@ public class GameRunnable extends BukkitRunnable {
 	
 	@Override
 	public void run() {
-		for(Player player : Bukkit.getOnlinePlayers()) main.getScoreboardManager().updateScoreboard(player);
-		
 		for(UHCMode mode : main.getGameManager().getModes()) {
 			for(UHCGame game : main.getGameManager().getGames(mode)) {
 				handleGame(game);
