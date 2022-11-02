@@ -27,8 +27,8 @@ public class BorderManager implements Listener {
 		
 		// register stages
 		stages.add(new BorderStage(0, 0, main.getConfig().getInt("settings.border.0.size")));
-		stages.add(new BorderStage(1, main.getConfig().getInt("settings.border.1.timer"), main.getConfig().getInt("settings.border.1.size")));
-		stages.add(new BorderStage(2, main.getConfig().getInt("settings.border.2.timer"), main.getConfig().getInt("settings.border.2.size")));
+		stages.add(new BorderStage(1, main.getConfig().getInt("settings.border.1.timer"), main.getConfig().getInt("settings.border.1.size")+1));
+		stages.add(new BorderStage(2, main.getConfig().getInt("settings.border.2.timer"), main.getConfig().getInt("settings.border.2.size")+1));
 	}
 	
 	public void startGame(UHCGame game) {
