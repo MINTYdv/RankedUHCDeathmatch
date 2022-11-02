@@ -140,7 +140,7 @@ public class GameListener implements Listener {
 		final UHCGame game = main.getGameManager().getGame(player);
 		if(game == null) return;
 		
-		if(game.getState() == GameState.WAITING) {
+		if(game.getState() != GameState.RUNNING) {
 			e.setCancelled(true);
 			return;
 		}
@@ -157,7 +157,6 @@ public class GameListener implements Listener {
 		
 		if(game.getState() != GameState.RUNNING) {
 			e.setCancelled(true);
-			Bukkit.broadcastMessage("block");
 			return;
 		}
 		

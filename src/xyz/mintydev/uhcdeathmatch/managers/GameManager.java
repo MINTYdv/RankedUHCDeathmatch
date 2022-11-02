@@ -12,7 +12,11 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -229,6 +233,12 @@ public class GameManager {
 		main.getBorderManager().startGame(game);
 		game.setState(GameState.RUNNING);
 		game.getAlivePlayers().addAll(game.getPlayers());
+		
+		// cleanup items & other entities
+		for(Entity entity : game.getArena().getWorld().getEntities()) {
+			if(!(entity instanceof Item) && !(entity instanceof Arrow) && !(entity instanceof TNTPrimed)) continue;
+			entity.remove();
+		}
 	}
 	
 	public void endGame(UHCGame game) {
