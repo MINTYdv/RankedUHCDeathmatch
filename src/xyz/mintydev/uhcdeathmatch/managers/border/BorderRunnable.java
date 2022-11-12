@@ -43,7 +43,6 @@ public class BorderRunnable extends BukkitRunnable {
 				
 				if(timeUntilChange == 0) {
 					// change stage
-					Bukkit.broadcastMessage("changing stage");
 					main.getBorderManager().getGamesStages().remove(game);
 					main.getBorderManager().getGamesStages().put(game, nextStage);
 				}

@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCEnchant;
@@ -30,6 +32,16 @@ public class ItemBuilder {
 		
 		result.setItemMeta(meta);
 		return result;
+	}
+	
+	public static ItemStack getPotion() {
+        ItemStack potion = new ItemStack(Material.POTION, 1);
+        Potion pot = new Potion(1);
+        pot.setSplash(true);
+        pot.setType(PotionType.INSTANT_HEAL);
+        pot.setLevel(2);
+        pot.apply(potion);
+        return potion;
 	}
 	
 	public static ItemStack getGhead(int amount) {

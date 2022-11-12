@@ -11,8 +11,8 @@ settings:
       timer: 0
       size: 100
     1:
-      timer: 5
+      timer: 100
       size: 50
     2:
-      timer: 5
+      timer: 200
       size: 20

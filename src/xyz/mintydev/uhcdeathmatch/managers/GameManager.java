@@ -47,20 +47,29 @@ public class GameManager {
 	public GameManager(UHCDeathMatch main) {
 		this.main = main;
 		
-		// create modes
-		modes.add(new ClassicMode());
-		modes.add(new NodebuffMode());
 		
-		// create games
-		for(UHCMode mode : modes) {
-			for(int i = 1; i <= main.getConfig().getInt("settings.games-per-mode"); i++) {
-				createNewGame(mode);
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				// create modes
+				modes.add(new ClassicMode());
+				modes.add(new NodebuffMode());
+				
+				// create games
+				for(UHCMode mode : modes) {
+					for(int i = 1; i <= main.getConfig().getInt("settings.games-per-mode"); i++) {
+						createNewGame(mode);
+					}
+				}
+				System.out.println("Created " + games.size() + " games");
+				
+				// register runnable
+				new GameRunnable(main).runTaskTimer(main, 0, 20);
 			}
-		}
-		System.out.println("Created " + this.games.size() + " games");
-		
-		// register runnable
-		new GameRunnable(main).runTaskTimer(main, 0, 20);
+
+		}.runTask(main);
+
 	}
 	
 	public void addKillElo(Player player) {
