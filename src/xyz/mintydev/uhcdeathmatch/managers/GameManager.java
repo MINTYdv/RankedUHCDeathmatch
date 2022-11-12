@@ -230,16 +230,16 @@ public class GameManager {
 			// give stuff
 			game.getMode().giveKit(player);
 			
-			final ItemStack helmet = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
+			final ItemStack helmet = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_HELMET,
 					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-			final ItemStack chestplate = ItemBuilder.getEnchantedItem(Material.DIAMOND_CHESTPLATE,
+			final ItemStack chestplate = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_CHESTPLATE,
 					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-			final ItemStack leggings = ItemBuilder.getEnchantedItem(Material.DIAMOND_LEGGINGS,
+			final ItemStack leggings = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_LEGGINGS,
 					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-			final ItemStack boots = ItemBuilder.getEnchantedItem(Material.DIAMOND_BOOTS,
+			final ItemStack boots = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_BOOTS,
 					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
 					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
 			

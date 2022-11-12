@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCEnchant;
@@ -23,8 +24,14 @@ public class NodebuffMode extends UHCMode {
 			player.getInventory().setItem(i, potion);
 		}
 		
-		player.getInventory().setItem(0, ItemBuilder.getEnchantedItem(Material.DIAMOND_SWORD,
-				new UHCEnchant(Enchantment.DAMAGE_ALL, 2)));
+		final ItemStack sword = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_SWORD,
+				new UHCEnchant(Enchantment.DAMAGE_ALL, 2));
+		
+		ItemMeta swordMeta = sword.getItemMeta();
+		swordMeta.spigot().setUnbreakable(true);
+		sword.setItemMeta(swordMeta);
+		player.getInventory().setItem(0, sword);
+		
 		player.getInventory().setItem(1, ItemBuilder.createItem(Material.ENDER_PEARL, 16, null, null));
 		player.getInventory().setItem(8, ItemBuilder.createItem(Material.COOKED_BEEF, 64, null, null));
 	}

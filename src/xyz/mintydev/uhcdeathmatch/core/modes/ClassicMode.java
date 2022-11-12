@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCEnchant;
@@ -17,7 +18,7 @@ public class ClassicMode extends UHCMode {
 
 	@Override
 	public void giveKit(Player player) {
-		final ItemStack sword = ItemBuilder.getEnchantedItem(Material.DIAMOND_SWORD,
+		final ItemStack sword = ItemBuilder.getEnchantedUnbreakableItem(Material.DIAMOND_SWORD,
 				new UHCEnchant(Enchantment.DAMAGE_ALL, 2));
 		
 		player.getInventory().setItem(0, sword);

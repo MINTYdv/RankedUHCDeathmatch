@@ -53,6 +53,18 @@ public class ItemBuilder {
 		return it;
 	}
 	
+	public static ItemStack getEnchantedUnbreakableItem(Material mat, UHCEnchant... enchants) {
+		ItemStack it = new ItemStack(mat, 1);
+		ItemMeta meta = it.getItemMeta();
+		meta.spigot().setUnbreakable(true);
+		
+		for(UHCEnchant ench : enchants) {
+			meta.addEnchant(ench.getEnchant(), ench.getLevel(), true);
+		}
+		it.setItemMeta(meta);
+		return it;
+	}
+	
 	public static ItemStack getEnchantedItem(Material mat, UHCEnchant... enchants) {
 		ItemStack it = new ItemStack(mat, 1);
 		ItemMeta meta = it.getItemMeta();

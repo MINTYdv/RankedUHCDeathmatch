@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -17,6 +19,14 @@ public class CoreListener implements Listener {
 	public CoreListener(UHCDeathMatch main) {
 		this.main = main;
 	}
+		
+	@EventHandler
+    public void onPlayerRegainHealth(EntityRegainHealthEvent event) {
+		if(!(event.getEntity() instanceof Player)) return;
+		
+        if(event.getRegainReason() == RegainReason.SATIATED || event.getRegainReason() == RegainReason.REGEN)
+            event.setCancelled(true);
+    }
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
