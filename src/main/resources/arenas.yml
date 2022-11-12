@@ -2,6 +2,7 @@ arenas:
   1:
     name: '&bArena 1'
     world: "arena1"
+    nodebuff: true
     center:
       x: 1.5
       y: 4
@@ -36,6 +37,7 @@ arenas:
   2:
     name: '&bArena 2'
     world: "arena2"
+    nodebuff: false
     center:
       x: 1.5
       y: 4
@@ -70,6 +72,7 @@ arenas:
   3:
     name: '&bArena 3'
     world: "arena3"
+    nodebuff: true
     center:
       x: 1.5
       y: 4
@@ -104,6 +107,7 @@ arenas:
   4:
     name: '&bArena 4'
     world: "arena4"
+    nodebuff: false
     center:
       x: 1.5
       y: 4

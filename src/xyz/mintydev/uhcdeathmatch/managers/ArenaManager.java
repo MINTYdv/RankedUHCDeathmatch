@@ -15,6 +15,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
+import xyz.mintydev.uhcdeathmatch.core.UHCGame;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 
 public class ArenaManager {
 
@@ -41,6 +43,7 @@ public class ArenaManager {
 			final String worldName = sec.getString(id + ".world").replaceAll(" ", "_");
 			final String name = sec.getString(id + ".name").replaceAll("&", "§");
 			final World world = Bukkit.getWorld(worldName);
+			final boolean isNodebuff = sec.getBoolean(id + ".nodebuff");
 			
 			List<Location> locations = new ArrayList<>();
 			ConfigurationSection locSec = sec.getConfigurationSection(id + ".players-pos");
@@ -62,7 +65,7 @@ public class ArenaManager {
 				locations.add(new Location(world, x, y, z, (float)yaw, (float)pitch));
 			}
 			
-			final Arena arena = new Arena(name, worldName, center, locations);
+			final Arena arena = new Arena(isNodebuff, name, worldName, center, locations);
 			this.arenas.add(arena);
 		}
 		main.getLogger().info("Loaded " + arenas.size() + " arenas.");
@@ -83,9 +86,11 @@ public class ArenaManager {
         }
     }
 	
-	public Arena getAvailableArea() {
+	public Arena getAvailableArea(UHCGame game) {
 		for(Arena arena : this.arenas) {
 			if(arena.isUsed()) continue;
+			if(!(arena.isNodebuff()) && game.getMode().getType() == UHCModeType.NODEBUFF) continue;
+			
 			return arena;
 		}
 		return null;

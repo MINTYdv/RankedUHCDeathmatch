@@ -45,9 +45,11 @@ public class GameManager {
 	private List<UHCMode> modes = new ArrayList<>();
 	private Map<UHCMode, List<UHCGame>> games = new HashMap<>();
 	
+	private boolean gamesStopped = false;
+	
 	public GameManager(UHCDeathMatch main) {
 		this.main = main;
-		
+		this.gamesStopped = false;
 		
 		new BukkitRunnable() {
 
@@ -317,7 +319,7 @@ public class GameManager {
 		main.getBorderManager().endGame(game);
 		
 		// get arena
-		Arena arena = main.getArenaManager().getAvailableArea();
+		Arena arena = main.getArenaManager().getAvailableArea(game);
 		game.setArena(arena);
 		if(arena != null) {
 			arena.setUsed(true);
@@ -346,8 +348,16 @@ public class GameManager {
 	 * Getters & Setters
 	 * */
 	
+	public boolean areGamesStopped() {
+		return gamesStopped;
+	}
+	
 	public List<UHCMode> getModes() {
 		return modes;
+	}
+	
+	public void setGamesStopped(boolean gamesStopped) {
+		this.gamesStopped = gamesStopped;
 	}
 
 	public Map<UHCMode, List<UHCGame>> getGames() {

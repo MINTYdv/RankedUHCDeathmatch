@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 import xyz.mintydev.uhcdeathmatch.core.gui.ModeSelectGUI;
@@ -69,6 +70,11 @@ public class LobbyListener implements Listener {
 		
 		if(item.getType() == Material.DIAMOND_SWORD) {
 			// open game select GUI
+			if(main.getGameManager().areGamesStopped()) {
+				player.sendMessage(Lang.get("gui.game-select.messages.games-stopped"));
+				return;
+			}
+			
 			main.getGuiManager().open(player, new ModeSelectGUI(main));
 			return;
 		}

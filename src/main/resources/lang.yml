@@ -2,7 +2,11 @@ errors:
   commands:
     player-only: "&cThis command can only be executed by a player."
     no-game: "&cYou must be in a game to use this command."
+    no-permission: "&cYou don't have the permission to execute this command."
 commands:
+  gamestop:
+    success: "&cYou successfully blocked all the games from being joined."
+    success-unblock: "&aYou successfully unblocked all the games."
   leave:
     success: "&aYou successfully left your previous game."
     player-left: "&c%player% &7left the game."
@@ -111,6 +115,7 @@ gui:
     lore-join: '&aClick to join the game'
     lore-no: '&cYou can''t join this game.'
     messages:
+      games-stopped: "&cGames on the server are currently unavailable and have been disabled by an administrator."
       no-arena: "&cYou can't join this game because there is no arena available."
       cant-join: "&cYou can't join this game at the moment."
       game-full: "&cThe game you are trying to join is already full."

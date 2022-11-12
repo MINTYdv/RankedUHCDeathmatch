@@ -14,6 +14,7 @@ public class Arena {
 
 	private boolean used = false;
 	
+	private final boolean nodebuff;
 	private final String name;
 	private final String worldName;
 	private final Location center;
@@ -21,8 +22,9 @@ public class Arena {
 
 	private List<Player> teleported = new ArrayList<>();
 	
-	public Arena(String name, String worldName, Location center, List<Location> playersPositions) {
+	public Arena(boolean nodebuff, String name, String worldName, Location center, List<Location> playersPositions) {
 		this.name = name;
+		this.nodebuff = nodebuff;
 		this.worldName = worldName;
 		this.center = center;
 		this.playersPositions = playersPositions;
@@ -56,6 +58,10 @@ public class Arena {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isNodebuff() {
+		return nodebuff;
 	}
 	
 	public List<Location> getPlayersPositions() {

@@ -11,3 +11,5 @@ commands:
     description: duel a player
   elo:
     description: get the elo of a player
+  gamestop:
+    description: game stop

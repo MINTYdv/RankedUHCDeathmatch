@@ -1,7 +1,6 @@
 package xyz.mintydev.uhcdeathmatch.cmd;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,6 +26,11 @@ public class EloCommand implements CommandExecutor {
 
 		if(args.length >= 1) {
 			if(args[0].equalsIgnoreCase("reset")) {
+				if(!(sender.hasPermission("uhcdm.elo.admin"))) {
+					sender.sendMessage(Lang.get("errors.commands.no-permission"));
+					return false;
+				}
+				
 				if(args.length < 2) {
 					sender.sendMessage(Lang.get("commands.elo.usage-reset"));
 					return false;
@@ -49,6 +53,11 @@ public class EloCommand implements CommandExecutor {
 			}
 			
 			if(args[0].equalsIgnoreCase("give")) {
+				if(!(sender.hasPermission("uhcdm.elo.admin"))) {
+					sender.sendMessage(Lang.get("errors.commands.no-permission"));
+					return false;
+				}
+				
 				if(args.length < 4) {
 					sender.sendMessage(Lang.get("commands.elo.usage-give"));
 					return false;
@@ -91,6 +100,11 @@ public class EloCommand implements CommandExecutor {
 			}
 			
 			if(args[0].equalsIgnoreCase("remove")) {
+				if(!(sender.hasPermission("uhcdm.elo.admin"))) {
+					sender.sendMessage(Lang.get("errors.commands.no-permission"));
+					return false;
+				}
+				
 				if(args.length < 4) {
 					sender.sendMessage(Lang.get("commands.elo.usage-remove"));
 					return false;

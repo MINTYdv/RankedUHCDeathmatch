@@ -70,6 +70,11 @@ public class GameSelectGUI extends UHCGUI {
 				return;
 			}
 			
+			if(main.getGameManager().areGamesStopped()) {
+				player.sendMessage(Lang.get("gui.game-select.messages.games-stopped"));
+				return;
+			}
+			
 			final UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
 			if(!(uhcPlayer.getState() == PlayerState.LOBBY)) return;
 			
