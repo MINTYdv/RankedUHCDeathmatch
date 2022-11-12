@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayer;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 import xyz.mintydev.uhcdeathmatch.util.SkullCreator;
@@ -34,7 +35,10 @@ public class EloGUI extends UHCGUI {
 
 		List<String> lore = new ArrayList<>();
 		for(String str : Lang.getList("gui.elo.item-lore")) {
-			lore.add(str.replaceAll("%elo%", ePlayer.getElo()+""));
+			str = str.replaceAll("%elo_CLASSIC%", ePlayer.getElo(UHCModeType.CLASSIC)+"");
+			str = str.replaceAll("%elo_NODEBUFF%", ePlayer.getElo(UHCModeType.NODEBUFF)+"");
+			
+			lore.add(str);
 		}
 		
 		final ItemStack it = ItemBuilder.createItem(base, 1, name, lore);

@@ -15,7 +15,7 @@ import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 public class NodebuffMode extends UHCMode {
 
 	public NodebuffMode() {
-		super("nodebuff", Lang.get("items.modes.nodebuff"), ItemBuilder.getPotion());
+		super(UHCModeType.NODEBUFF, "nodebuff", Lang.get("items.modes.nodebuff"), ItemBuilder.getPotion());
 	}
 
 	@Override

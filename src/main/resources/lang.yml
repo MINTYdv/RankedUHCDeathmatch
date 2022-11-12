@@ -7,12 +7,13 @@ commands:
     success: "&aYou successfully left your previous game."
     player-left: "&c%player% &7left the game."
   elo:
-    usage-give: "&cUsage: /elo give <player> <amount>"
-    usage-remove: "&cUsage: /elo remove <player> <amount>"
+    usage-give: "&cUsage: /elo give <player> <mode> <amount>"
+    usage-remove: "&cUsage: /elo remove <player> <mode> <amount>"
     usage-reset: "&cUsage: /relo reset <player>"
-    success: "&aThe elo has been edited successfully. New elo: %elo%"
+    success: "&aThe elo has been edited successfully. New elo: %elo% (Mode: %mode%)"
     error-player: "&cCouldn't find a player with the name of \"%name%\" !"
     error-number: "&cInvalid number provided."
+    error-mode: "&cInvalid mode provided, valid modes are : "
 items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
@@ -29,7 +30,8 @@ scoreboards:
   hub:
     - '&7Hub'
     - ''
-    - '&fElo: &e%elo%'
+    - '&fUHCDM: &e%elo_CLASSIC%'
+    - '&fNODEBUFF: &e%elo_NODEBUFF%'
     - ''
     - '&fOnline: &b%online%'
     - '&fIn Game: &b%ingame%'
@@ -93,7 +95,8 @@ gui:
     item-name: "&6%player%"
     item-lore:
       - ''
-      - '&fElo: &e%elo%'
+      - '&fUHCDM: &e%elo_CLASSIC%'
+      - '&fNODEBUFF: &e%elo_NODEBUFF%'
       - ''
   mode-select:
     title: "&6&lSelect a mode"

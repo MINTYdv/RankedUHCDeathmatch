@@ -12,7 +12,7 @@ import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 public class ClassicMode extends UHCMode {
 
 	public ClassicMode() {
-		super("classic_uhc", Lang.get("items.modes.uhc"), new ItemStack(Material.GOLDEN_APPLE, 1));
+		super(UHCModeType.CLASSIC, "classic_uhc", Lang.get("items.modes.uhc"), new ItemStack(Material.GOLDEN_APPLE, 1));
 	}
 
 	@Override

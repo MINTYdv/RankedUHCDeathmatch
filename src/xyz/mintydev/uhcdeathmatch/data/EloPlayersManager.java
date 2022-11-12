@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 
 public class EloPlayersManager {
 
@@ -118,7 +119,6 @@ public class EloPlayersManager {
 		gson.toJson(ePlayer, writer);
 		writer.flush();
 		writer.close();
-		main.getLogger().info("Player " + ePlayer.getUUID().toString() + " profile successfully saved.");
 	}
 	
 	private void savePlayersDataToConfig() {
@@ -134,11 +134,13 @@ public class EloPlayersManager {
 		
 		if(!(getEloPlayers().containsKey(player.getUniqueId()))) {
 			if(load(player.getUniqueId()) == null) {
-				main.getLogger().info("Creating elo account for " + player.getName());
 				final EloPlayer ePlayer = new EloPlayer();
 				ePlayer.setUUID(player.getUniqueId());
 				ePlayer.setUsername(player.getName());
-				ePlayer.setElo(main.getConfig().getInt("settings.elo.default"));
+				
+				for(UHCModeType type : UHCModeType.values()) {
+					ePlayer.setElo(type, main.getConfig().getInt("settings.elo.default"));
+				}
 				getEloPlayers().put(player.getUniqueId(), ePlayer);
 			}else {
 				// load from file

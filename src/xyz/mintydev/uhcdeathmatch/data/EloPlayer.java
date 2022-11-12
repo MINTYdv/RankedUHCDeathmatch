@@ -1,23 +1,28 @@
 package xyz.mintydev.uhcdeathmatch.data;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+
+import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 
 public class EloPlayer {
 
 	private Player player;
 	private UUID uuid;
 	private String username;
-	private int elo;
+	private Map<UHCModeType, Integer> elos = new HashMap<>();
 	
 	public EloPlayer() {}
 	
-	public EloPlayer(Player player, UUID uuid, String username, int elo) {
+	public EloPlayer(Player player, UUID uuid, String username, Map<UHCModeType, Integer> elos) {
 		this.player = player;
 		this.uuid = uuid;
 		this.username = username;
-		this.elo = elo;
+		this.elos = elos;
 	}
 	
 	/* 
@@ -44,20 +49,38 @@ public class EloPlayer {
 		this.uuid = uuid;
 	}
 	
-	public void setElo(int elo) {
-		this.elo = elo;
+	public void setElo(UHCModeType type, int elo) {
+		elos.remove(type);
+		elos.put(type, elo);
 	}
 	
-	public void addElo(int toAdd) {
-		this.elo += toAdd;
+	public void addElo(UHCModeType type, int toAdd) {
+		getElo(type);
+		
+		int base = getElo(type);
+		elos.remove(type);
+		base += toAdd;
+		
+		elos.put(type, base);
 	}
 	
-	public void removeElo(int toRemove) {
-		this.elo -= toRemove;
+	public void removeElo(UHCModeType type, int toRemove) {
+		getElo(type);
+		
+		int base = getElo(type);
+		elos.remove(type);
+		base -= toRemove;
+		if(base < 500) base = 500;
+		
+		elos.put(type, base);
 	}
 	
-	public int getElo() {
-		return elo;
+	public int getElo(UHCModeType type) {
+		if(!(this.elos.containsKey(type))){
+			elos.put(type, UHCDeathMatch.get().getConfig().getInt("elo.default"));
+		}
+		
+		return elos.get(type);
 	}
 	
 	public UUID getUUID() {

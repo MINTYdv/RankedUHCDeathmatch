@@ -15,6 +15,7 @@ import xyz.mintydev.uhcdeathmatch.core.GameState;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 
 public class ScoreboardManager {
 
@@ -43,7 +44,8 @@ public class ScoreboardManager {
 			for(String str : Lang.getList("scoreboards.hub")) {
 				str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 				str = str.replaceAll("%ingame%", main.getGameManager().getAmountofIngamePlayers()+"");
-				str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
+				str = str.replaceAll("%elo_CLASSIC%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.CLASSIC)+"");
+				str = str.replaceAll("%elo_NODEBUFF%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.NODEBUFF)+"");
 				lines.add(str);
 			}
 			board.updateLines(lines);
@@ -59,7 +61,8 @@ public class ScoreboardManager {
 					str = str.replaceAll("%players%", game.getPlayers().size()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
-					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
+					str = str.replaceAll("%elo_CLASSIC%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.CLASSIC)+"");
+					str = str.replaceAll("%elo_NODEBUFF%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.NODEBUFF)+"");
 					
 					String status = "§fWaiting for players..";
 					if(game.getStartTimer() > 0) {
@@ -76,7 +79,8 @@ public class ScoreboardManager {
 					str = str.replaceAll("%online%", Bukkit.getOnlinePlayers().size()+"");
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
-					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
+					str = str.replaceAll("%elo_CLASSIC%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.CLASSIC)+"");
+					str = str.replaceAll("%elo_NODEBUFF%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.NODEBUFF)+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
 					
 					final int timer = main.getBorderManager().getBorderRunnables().get(game).getTimeUntilChange();
@@ -94,7 +98,8 @@ public class ScoreboardManager {
 					str = str.replaceAll("%kills%", uPlayer.getKills()+"");
 					str = str.replaceAll("%alive%", game.getAlivePlayers().size()+"");
 					str = str.replaceAll("%mode%", ChatColor.stripColor(game.getMode().getDisplayName())+"");
-					str = str.replaceAll("%elo%", main.getEloPlayersManager().getPlayer(player).getElo()+"");
+					str = str.replaceAll("%elo_CLASSIC%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.CLASSIC)+"");
+					str = str.replaceAll("%elo_NODEBUFF%", main.getEloPlayersManager().getPlayer(player).getElo(UHCModeType.NODEBUFF)+"");
 					str = str.replaceAll("%winner%", game.getWinnerName());
 					lines.add(str);
 				}

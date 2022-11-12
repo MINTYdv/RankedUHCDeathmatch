@@ -216,7 +216,7 @@ public class GameListener implements Listener {
 		if(uPlayer.getState() == PlayerState.PLAYING) {
 			if(uPlayer.getLastDamager() != null) {
 				// add elo to last damager
-				main.getGameManager().removeDeathElo(player);
+				main.getGameManager().removeDeathElo(game.getMode().getType(), player);
 			}
 		}
 	}

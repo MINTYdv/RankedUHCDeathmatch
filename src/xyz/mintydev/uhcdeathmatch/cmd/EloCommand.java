@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.gui.EloGUI;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayer;
 import xyz.mintydev.uhcdeathmatch.util.UHCUtil;
 
@@ -39,14 +40,15 @@ public class EloCommand implements CommandExecutor {
 				
 				final Player target = Bukkit.getPlayer(targetName);
 				final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(target);
-				ePlayer.setElo(main.getConfig().getInt("settings.elo.default"));
-				
-				sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo()+""));
+				for(UHCModeType type : UHCModeType.values()) {
+					ePlayer.setElo(type, main.getConfig().getInt("settings.elo.default"));
+					sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo(type)+"").replaceAll("%mode%", type.toString()));
+				}
 				return false;
 			}
 			
 			if(args[0].equalsIgnoreCase("give")) {
-				if(args.length < 3) {
+				if(args.length < 4) {
 					sender.sendMessage(Lang.get("commands.elo.usage-give"));
 					return false;
 				}
@@ -61,21 +63,34 @@ public class EloCommand implements CommandExecutor {
 				final Player target = Bukkit.getPlayer(targetName);
 				final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(target);
 
-				if(!(UHCUtil.isInteger(args[2]))) {
+				final String modeString = args[2];
+				
+				String modesList = "";
+				for(UHCModeType type : UHCModeType.values()) {
+					modesList += type.toString() + " ";
+				}
+				
+				if(UHCModeType.valueOf(modeString.toUpperCase()) == null) {
+					sender.sendMessage(Lang.get("commands.elo.error-mode") + " " + modesList);
+					return false;
+				}
+				final UHCModeType type = UHCModeType.valueOf(modeString.toUpperCase());
+				
+				if(!(UHCUtil.isInteger(args[3]))) {
 					sender.sendMessage(Lang.get("commands.elo.error-number"));
 					return false;
 				}
 				
-				final int amount = Integer.parseInt(args[2]);
+				final int amount = Integer.parseInt(args[3]);
 				
-				ePlayer.addElo(amount);
+				ePlayer.addElo(type, amount);
 				
-				sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo()+""));
+				sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo(type)+"").replaceAll("%mode%", type.toString()));
 				return false;
 			}
 			
 			if(args[0].equalsIgnoreCase("remove")) {
-				if(args.length < 3) {
+				if(args.length < 4) {
 					sender.sendMessage(Lang.get("commands.elo.usage-remove"));
 					return false;
 				}
@@ -90,16 +105,29 @@ public class EloCommand implements CommandExecutor {
 				final Player target = Bukkit.getPlayer(targetName);
 				final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(target);
 
-				if(!(UHCUtil.isInteger(args[2]))) {
+				final String modeString = args[2];
+				
+				String modesList = "";
+				for(UHCModeType type : UHCModeType.values()) {
+					modesList += type.toString() + " ";
+				}
+				
+				if(UHCModeType.valueOf(modeString.toUpperCase()) == null) {
+					sender.sendMessage(Lang.get("commands.elo.error-mode") + " " + modesList);
+					return false;
+				}
+				final UHCModeType type = UHCModeType.valueOf(modeString.toUpperCase());
+				
+				if(!(UHCUtil.isInteger(args[3]))) {
 					sender.sendMessage(Lang.get("commands.elo.error-number"));
 					return false;
 				}
 				
-				final int amount = Integer.parseInt(args[2]);
+				final int amount = Integer.parseInt(args[3]);
 				
-				ePlayer.removeElo(amount);
+				ePlayer.removeElo(type, amount);
 				
-				sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo()+""));
+				sender.sendMessage(Lang.get("commands.elo.success").replaceAll("%elo%", ePlayer.getElo(type)+"").replaceAll("%mode%", type.toString()));
 				return false;
 			}
 		}

@@ -5,11 +5,13 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class UHCMode {
 
+	private final UHCModeType type;
 	private final String id;
 	private final String displayName;
 	private final ItemStack icon;
 	
-	public UHCMode(String id, String displayName, ItemStack icon) {
+	public UHCMode(UHCModeType type, String id, String displayName, ItemStack icon) {
+		this.type = type;
 		this.id = id;
 		this.displayName = displayName;
 		this.icon = icon;
@@ -20,6 +22,10 @@ public abstract class UHCMode {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public UHCModeType getType() {
+		return type;
+	}
 	
 	public String getId() {
 		return id;
