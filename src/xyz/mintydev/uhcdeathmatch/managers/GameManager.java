@@ -128,6 +128,9 @@ public class GameManager {
 		if(player.hasPotionEffect(PotionEffectType.REGENERATION)) {
 			player.removePotionEffect(PotionEffectType.REGENERATION);
 		}
+		if(player.hasPotionEffect(PotionEffectType.ABSORPTION)) {
+			player.removePotionEffect(PotionEffectType.ABSORPTION);
+		}
 		if(player.hasPotionEffect(PotionEffectType.SPEED)) {
 			player.removePotionEffect(PotionEffectType.SPEED);
 		}
@@ -141,24 +144,26 @@ public class GameManager {
 		if(!(game.getAlivePlayers().contains(victim))) return;
 		
 		game.getAlivePlayers().remove(victim);
-		// spawn chest
-		main.getDeathChestManager().spawnDeathChest(victim, victim.getLocation(), drops);
 		
 		TitleUtil.sendTitle(victim, 0, 20*3, 10, Lang.get("titles.death.title"), Lang.get("titles.death.subtitle"));
 		victim.playSound(victim.getLocation(), Sound.VILLAGER_HIT, 1, 1);
-		killer.playSound(victim.getLocation(), Sound.VILLAGER_HIT, 1, 1);
+		if(killer != null) {
+			killer.playSound(victim.getLocation(), Sound.VILLAGER_HIT, 1, 1);
+		}
 
 		// set spectator
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(victim);
 		uPlayer.setState(PlayerState.SPECTATOR);
 		
-		// add kill to player
-		final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
-		uKiller.addKill();
-		
+		if(killer != null) {
+			// add kill to player
+			final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
+			uKiller.addKill();
+			addKillElo(killer);
+		}
 		removeDeathElo(victim);
-		addKillElo(killer);
-		
+
+		// set spec
 		new BukkitRunnable() {
 
 			@Override
@@ -193,26 +198,6 @@ public class GameManager {
 		
 		// give stuff
 		player.getInventory().clear();
-
-		game.getMode().giveKit(player);
-		
-		final ItemStack helmet = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
-				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
-				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack chestplate = ItemBuilder.getEnchantedItem(Material.DIAMOND_CHESTPLATE,
-				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
-				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack leggings = ItemBuilder.getEnchantedItem(Material.DIAMOND_LEGGINGS,
-				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
-				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		final ItemStack boots = ItemBuilder.getEnchantedItem(Material.DIAMOND_BOOTS,
-				new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
-				new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
-		
-		player.getInventory().setHelmet(helmet);
-		player.getInventory().setChestplate(chestplate);
-		player.getInventory().setLeggings(leggings);
-		player.getInventory().setBoots(boots);
 	}
 	
 	public void leaveGame(Player player, UHCGame game) {
@@ -237,6 +222,31 @@ public class GameManager {
 	
 		for(Player player : game.getPlayers()) {
 			player.setWalkSpeed(0.2f);
+		
+			// safety checks
+			player.getInventory().clear();
+			player.setGameMode(GameMode.SURVIVAL);
+			
+			// give stuff
+			game.getMode().giveKit(player);
+			
+			final ItemStack helmet = ItemBuilder.getEnchantedItem(Material.DIAMOND_HELMET,
+					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
+					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
+			final ItemStack chestplate = ItemBuilder.getEnchantedItem(Material.DIAMOND_CHESTPLATE,
+					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
+					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
+			final ItemStack leggings = ItemBuilder.getEnchantedItem(Material.DIAMOND_LEGGINGS,
+					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
+					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
+			final ItemStack boots = ItemBuilder.getEnchantedItem(Material.DIAMOND_BOOTS,
+					new UHCEnchant(Enchantment.PROTECTION_PROJECTILE, 1),
+					new UHCEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3));
+			
+			player.getInventory().setHelmet(helmet);
+			player.getInventory().setChestplate(chestplate);
+			player.getInventory().setLeggings(leggings);
+			player.getInventory().setBoots(boots);
 		}
 		
 		main.getBorderManager().startGame(game);

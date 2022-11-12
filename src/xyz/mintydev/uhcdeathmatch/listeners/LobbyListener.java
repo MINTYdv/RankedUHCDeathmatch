@@ -1,10 +1,13 @@
 package xyz.mintydev.uhcdeathmatch.listeners;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +23,30 @@ public class LobbyListener implements Listener {
 	
 	public LobbyListener(UHCDeathMatch main) {
 		this.main = main;
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if(!(e.getWhoClicked() instanceof Player)) return;
+		final Player player = (Player) e.getWhoClicked();
+		if(player.getGameMode() == GameMode.CREATIVE) return;
+		
+		final UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
+		if(uhcPlayer.getState() != PlayerState.LOBBY) return;
+		
+		e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onDrop(PlayerDropItemEvent e) {
+		final Player player = e.getPlayer();
+		if(player.getItemInHand() == null) return;
+		if(player.getGameMode() == GameMode.CREATIVE) return;
+		
+		final UHCPlayer uhcPlayer = main.getPlayersManager().getPlayer(player);
+		if(uhcPlayer.getState() != PlayerState.LOBBY) return;
+		
+		e.setCancelled(true);
 	}
 	
 	@EventHandler

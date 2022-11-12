@@ -82,6 +82,7 @@ elo-messages:
   kill: "&a&l+10 ELO&7: &fKill"
 misc:
   kill: "&c%victim% &7was killed by &c%killer%"
+  kill-natural: "&c%victim% &7died."
   leave-actionbar: "&cWaiting for players... Use &4/leave &cto leave the game"
   timer-actionbar: "&fThe game is starting in &e%timer% second(s)&f..."
   title-starting: "&fStarting in &e%timer%&f.."

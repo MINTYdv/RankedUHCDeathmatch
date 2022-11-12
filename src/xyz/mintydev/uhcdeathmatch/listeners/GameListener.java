@@ -3,7 +3,6 @@ package xyz.mintydev.uhcdeathmatch.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -44,18 +43,25 @@ public class GameListener implements Listener {
 	public void onDeath(PlayerDeathEvent e) {
 		final Player victim = e.getEntity();
 		final Player killer = victim.getKiller();
-		if(killer == null) return;
 		
-		final UHCGame game = main.getGameManager().getGame(killer);
+		final UHCGame game = main.getGameManager().getGame(victim);
 		if(game == null || game.getState() != GameState.RUNNING) return;
 		if(main.getGameManager().getGame(victim) == null) return;
 		
 		List<ItemStack> drops = new ArrayList<>();
 		drops.addAll(e.getDrops());
-		
+
+		// spawn chest
+		main.getDeathChestManager().spawnDeathChest(victim, victim.getLocation(), drops);
 		main.getGameManager().playerKill(game, victim, killer, drops);
+		
 		e.setDeathMessage(null);
-		game.broadcastMessage(Lang.get("misc.kill").replaceAll("%victim%", victim.getName()).replaceAll("%killer%", killer.getName()));
+		
+		if(killer != null) {
+			game.broadcastMessage(Lang.get("misc.kill").replaceAll("%victim%", victim.getName()).replaceAll("%killer%", killer.getName()));
+		} else {
+			game.broadcastMessage(Lang.get("misc.kill-natural").replaceAll("%victim%", victim.getName()));
+		}
 
 		e.getDrops().clear();
 	}
@@ -76,6 +82,7 @@ public class GameListener implements Listener {
 			UHCUtil.removeOne(player, item);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12*20, 1));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 2));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 90*20, 0));
 		}
 	}
 	
@@ -161,7 +168,6 @@ public class GameListener implements Listener {
 		}
 		
 		final Block block = e.getBlock();
-		Bukkit.broadcastMessage(block.getType().toString());
 		if(block.getType().toString().toUpperCase().contains("LEAVES")
 				|| block.getType().toString().toUpperCase().contains("LOG")
 				|| block.getType().toString().toUpperCase().contains("SNOW")
@@ -182,6 +188,12 @@ public class GameListener implements Listener {
 		
 		final UHCGame game = main.getGameManager().getGame(player);
 		if(game == null) return;
+		
+		// placing golden head on ground
+		if(e.getItemInHand() != null && e.getItemInHand().equals(ItemBuilder.getGhead(e.getItemInHand().getAmount()))) {
+			e.setCancelled(true);
+			return;
+		}
 		
 		if(game.getState() != GameState.RUNNING) {
 			e.setCancelled(true);
