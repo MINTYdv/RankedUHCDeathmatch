@@ -5,6 +5,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCEnchant;
@@ -34,6 +36,8 @@ public class NodebuffMode extends UHCMode {
 		
 		player.getInventory().setItem(1, ItemBuilder.createItem(Material.ENDER_PEARL, 16, null, null));
 		player.getInventory().setItem(8, ItemBuilder.createItem(Material.COOKED_BEEF, 64, null, null));
+		
+		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1));
 	}
 	
 }
