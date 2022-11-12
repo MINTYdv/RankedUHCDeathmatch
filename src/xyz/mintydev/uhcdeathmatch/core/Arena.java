@@ -1,14 +1,18 @@
 package xyz.mintydev.uhcdeathmatch.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+import xyz.mintydev.uhcdeathmatch.util.Cuboid;
 
 public class Arena {
 
@@ -17,17 +21,27 @@ public class Arena {
 	private final boolean nodebuff;
 	private final String name;
 	private final String worldName;
+	private final Location pos1;
+	private final Location pos2;
 	private final Location center;
 	private final List<Location> playersPositions;
 
 	private List<Player> teleported = new ArrayList<>();
 	
-	public Arena(boolean nodebuff, String name, String worldName, Location center, List<Location> playersPositions) {
+	private Map<Location, BlockState> savedBlocks = new HashMap<>();
+	
+	public Arena(boolean nodebuff, String name, String worldName, Location pos1, Location pos2, Location center, List<Location> playersPositions) {
 		this.name = name;
 		this.nodebuff = nodebuff;
 		this.worldName = worldName;
+		this.pos1 = pos1;
+		this.pos2 = pos2;
 		this.center = center;
 		this.playersPositions = playersPositions;
+	}
+	
+	public Cuboid getCuboid() {
+		return new Cuboid(this.getPos1(), this.getPos2());
 	}
 	
 	public void teleportPlayer(Player player) {
@@ -55,6 +69,18 @@ public class Arena {
 	/* 
 	 * Getters & Setters
 	 * */
+	
+	public Location getPos1() {
+		return pos1;
+	}
+	
+	public Location getPos2() {
+		return pos2;
+	}
+	
+	public Map<Location, BlockState> getSavedBlocks() {
+		return savedBlocks;
+	}
 	
 	public String getName() {
 		return name;

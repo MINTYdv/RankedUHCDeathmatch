@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -223,6 +225,20 @@ public class GameManager {
 	public void startGame(UHCGame game) {
 		if(game == null || game.getState() != GameState.WAITING) return;
 	
+		final Arena arena = game.getArena();
+		
+		/* save blocks */
+		if(arena.getSavedBlocks().size() > 0) {
+			game.getArena().getSavedBlocks().clear();
+		}
+		for(Block block : arena.getCuboid()) {
+			if(block.getType() == Material.AIR) continue;
+			
+			final Location loc = block.getLocation();
+			arena.getSavedBlocks().put(loc, block.getState());
+		}
+		/* save blocks */
+		
 		for(Player player : game.getPlayers()) {
 			player.setWalkSpeed(0.2f);
 		
@@ -307,11 +323,31 @@ public class GameManager {
 		resetGame(game);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void resetGame(UHCGame game) {
 		// set things
 		if(game.getArena() != null) {
-			game.getArena().setUsed(false);
-			game.getArena().resetTeleportations();
+			final Arena arena = game.getArena();
+			
+			arena.setUsed(false);
+			arena.resetTeleportations();
+			
+			/* reset blocks */
+			if(game.getArena().getSavedBlocks().size() > 0) {
+				for(Block block : game.getArena().getCuboid()) {
+					if(arena.getSavedBlocks().containsKey(block.getLocation())) {
+						final BlockState state = arena.getSavedBlocks().get(block.getLocation());
+						
+						block.getState().setRawData(state.getRawData());
+//						block.setType(state.getType());
+//						block.getState().setData(state.getData());
+//						block.getState().update(true);
+					} else {
+						block.setType(Material.AIR);
+					}
+				}
+			}
+			/* reset blocks */
 		}
 		game.setState(GameState.WAITING);
 		game.setStartTimer(-1);
@@ -324,18 +360,8 @@ public class GameManager {
 		if(arena != null) {
 			arena.setUsed(true);
 		}
-		
-		for(Block block : game.getPlacedBlocks()) {
-			block.setType(Material.AIR);
-		}
-		
-		for(Entry<Location, Material> entry : game.getBrokenBlocks().entrySet()) {
-			entry.getKey().getWorld().getBlockAt(entry.getKey()).setType(entry.getValue());
-		}
-		
+
 		// clear players
-		game.getPlacedBlocks().clear();
-		game.getBrokenBlocks().clear();
 		game.getPlayers().clear();
 		game.getAlivePlayers().clear();
 	}

@@ -17,8 +17,6 @@ public class UHCGame {
 	private final UHCMode mode;
 	private GameState state;
 	
-	private Map<Location, Material> brokenBlocks = new HashMap<>();
-	private List<Block> placedBlocks = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
 	private List<Player> alivePlayers = new ArrayList<>();
 	private String winnerName;
@@ -58,10 +56,6 @@ public class UHCGame {
 	 * Getters & Setters
 	 * */
 	
-	public Map<Location, Material> getBrokenBlocks() {
-		return brokenBlocks;
-	}
-	
 	public int getStartTimer() {
 		return startTimer;
 	}
@@ -74,10 +68,6 @@ public class UHCGame {
 		return mode;
 	}
 	
-	public List<Block> getPlacedBlocks() {
-		return placedBlocks;
-	}
-
 	public List<Player> getPlayers() {
 		return players;
 	}

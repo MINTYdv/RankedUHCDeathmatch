@@ -48,13 +48,10 @@ public class ArenaManager {
 			List<Location> locations = new ArrayList<>();
 			ConfigurationSection locSec = sec.getConfigurationSection(id + ".players-pos");
 			ConfigurationSection centerSec = sec.getConfigurationSection(id + ".center");
-			final double centerX = centerSec.getDouble("x");
-			final double centerY = centerSec.getDouble("y");
-			final double centerZ = centerSec.getDouble("z");
-			final double centerYaw = centerSec.getDouble("yaw");
-			final double centerPitch = centerSec.getDouble("pitch");
-			
-			final Location center = new Location(world, centerX, centerY, centerZ, (float)centerYaw, (float)centerPitch);
+
+			final Location center = parseLocation(world, centerSec);
+			final Location pos1 = parseLocation(world, sec.getConfigurationSection(id + ".pos1"));
+			final Location pos2 = parseLocation(world, sec.getConfigurationSection(id + ".pos2"));
 			
 			for(String locId : locSec.getKeys(false)) {
 				final double x = locSec.getDouble(locId + ".x");
@@ -65,10 +62,23 @@ public class ArenaManager {
 				locations.add(new Location(world, x, y, z, (float)yaw, (float)pitch));
 			}
 			
-			final Arena arena = new Arena(isNodebuff, name, worldName, center, locations);
+			final Arena arena = new Arena(isNodebuff, name, worldName, pos1, pos2, center, locations);
 			this.arenas.add(arena);
 		}
 		main.getLogger().info("Loaded " + arenas.size() + " arenas.");
+	}
+	
+	private Location parseLocation(World world, ConfigurationSection sec) {
+		final double x = sec.getDouble("x");
+		final double y = sec.getDouble("y");
+		final double z = sec.getDouble("z");
+		
+		double yaw = 0;
+		double pitch = 0;
+		if(sec.contains("yaw")) yaw = sec.getDouble("yaw");
+		if(sec.contains("pitch")) pitch = sec.getDouble("pitch");
+		
+		return new Location(world, x, y, z, (float) yaw, (float) pitch);
 	}
 	
 	private void createCustomConfig() {

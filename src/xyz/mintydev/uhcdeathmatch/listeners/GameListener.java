@@ -168,14 +168,11 @@ public class GameListener implements Listener {
 		}
 		
 		final Block block = e.getBlock();
-		if(block.getType().toString().toUpperCase().contains("LEAVES")
+		if(!(block.getType().toString().toUpperCase().contains("LEAVES")
 				|| block.getType().toString().toUpperCase().contains("LOG")
 				|| block.getType().toString().toUpperCase().contains("SNOW")
-				|| block.getType() == Material.LONG_GRASS) {
-
-			game.getBrokenBlocks().put(block.getLocation(), block.getType());
-			
-		} else {
+				|| block.getType() == Material.LONG_GRASS))
+		{
 			e.setCancelled(true);
 		}
 	}
@@ -199,8 +196,6 @@ public class GameListener implements Listener {
 			e.setCancelled(true);
 			return;
 		}
-		
-		game.getPlacedBlocks().add(e.getBlock());
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
