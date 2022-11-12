@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
-import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
-import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
 
 public class LeaveCommand implements CommandExecutor {
 
@@ -30,19 +28,16 @@ public class LeaveCommand implements CommandExecutor {
 		
 		final Player player = (Player) sender;
 
-		if(main.getGameManager().getGame(player) == null) {
+		final UHCGame game = main.getGameManager().getGame(player);
+		if(game == null) {
 			sender.sendMessage(Lang.get("errors.commands.no-game"));
 			return false;
 		}
 		
-		final UHCGame game = main.getGameManager().getGame(player);
-		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(player);
-		if(uPlayer.getState() != PlayerState.SPECTATOR && game.getState() == GameState.RUNNING) {
-			sender.sendMessage(Lang.get("commands.leave.running"));
-			return false;
-		}
-		
 		// leave the game
+		if(game.getState() == GameState.RUNNING) {
+			game.broadcastMessage(Lang.get("commands.leave.player-left").replaceAll("%player%", player.getName()+""));
+		}
 		main.getGameManager().leaveGame(player, game);
 		sender.sendMessage(Lang.get("commands.leave.success"));
 		return false;

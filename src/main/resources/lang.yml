@@ -5,7 +5,7 @@ errors:
 commands:
   leave:
     success: "&aYou successfully left your previous game."
-    running: "&cYou can't leave a running game."
+    player-left: "&c%player% &7left the game."
   elo:
     usage-give: "&cUsage: /elo give <player> <amount>"
     usage-remove: "&cUsage: /elo remove <player> <amount>"
