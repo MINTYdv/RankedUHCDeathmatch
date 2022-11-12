@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import com.google.gson.Gson;
@@ -77,21 +78,6 @@ public class EloPlayersManager {
 		savePlayersDataToConfig();
 	}
 	
-	public void saveAndRemove(EloPlayer ePlayer) {
-		try {
-			save(ePlayer);
-			elarysPlayers.remove(ePlayer.getUUID());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void removeIfNotOnline(EloPlayer ePlayer){
-		if(ePlayer.getPlayer() == null || !Bukkit.getOfflinePlayer(ePlayer.getUUID()).isOnline()){
-			elarysPlayers.remove(ePlayer.getUUID());
-		}
-	}
-	
 	private EloPlayer load(File file) throws FileNotFoundException {
 		if(!(file.exists())) return null;
 		final Reader reader = new FileReader(file);
@@ -129,9 +115,20 @@ public class EloPlayersManager {
 		}
 	}
 		
-	public EloPlayer getPlayer(Player player) {
-		if(player == null) return null;
+	public EloPlayer getPlayer(String username) {
+		if(username.length() < 3) return null;
 		
+		for(EloPlayer ePlayer : getEloPlayers().values()) {
+			if(ePlayer.getUsername().equalsIgnoreCase(username)) {
+				return ePlayer;
+			}
+		}
+		return null;
+	}
+	
+	public EloPlayer getPlayer(OfflinePlayer player) {
+		if(player == null) return null;
+
 		if(!(getEloPlayers().containsKey(player.getUniqueId()))) {
 			if(load(player.getUniqueId()) == null) {
 				final EloPlayer ePlayer = new EloPlayer();

@@ -11,7 +11,7 @@ commands:
     usage-remove: "&cUsage: /elo remove <player> <mode> <amount>"
     usage-reset: "&cUsage: /relo reset <player>"
     success: "&aThe elo has been edited successfully. New elo: %elo% (Mode: %mode%)"
-    error-player: "&cCouldn't find a player with the name of \"%name%\" !"
+    error-player: "&cCouldn't find a player with the name of \"%name%\" inside the database !"
     error-number: "&cInvalid number provided."
     error-mode: "&cInvalid mode provided, valid modes are : "
 items:

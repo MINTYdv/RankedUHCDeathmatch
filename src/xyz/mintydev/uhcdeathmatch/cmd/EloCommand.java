@@ -1,6 +1,7 @@
 package xyz.mintydev.uhcdeathmatch.cmd;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -141,17 +142,17 @@ public class EloCommand implements CommandExecutor {
 		
 		final Player player = (Player) sender;
 
-		Player targetPlayer = player;
+		EloPlayer targetPlayer = main.getEloPlayersManager().getPlayer(player);
 		
 		if(args.length == 1) {
 			final String targetName = args[0];
 			
-			if(Bukkit.getPlayer(targetName) == null) {
+			if(main.getEloPlayersManager().getPlayer(targetName) == null) {
 				player.sendMessage(Lang.get("commands.elo.error-player").replaceAll("%name%", args[0]));
 				return false;
 			}
 			
-			targetPlayer = Bukkit.getPlayer(targetName);
+			targetPlayer = main.getEloPlayersManager().getPlayer(targetName);
 		}
 		
 		// open the gui

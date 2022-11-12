@@ -17,10 +17,10 @@ import xyz.mintydev.uhcdeathmatch.util.gui.UHCGUI;
 
 public class EloGUI extends UHCGUI {
 	
-	private final Player target;
+	private final EloPlayer target;
 
-	public EloGUI(UHCDeathMatch main, Player target) {
-		super(main, "game_select", Lang.get("gui.elo.title").replaceAll("%player%", target.getName()), 1);
+	public EloGUI(UHCDeathMatch main, EloPlayer target) {
+		super(main, "game_select", Lang.get("gui.elo.title").replaceAll("%player%", target.getUsername()), 1);
 		this.target = target;
 	}
 
@@ -28,15 +28,13 @@ public class EloGUI extends UHCGUI {
 	@Override
 	public void contents(Player player, Inventory inv) {
 		
-		final String name = Lang.get("gui.elo.item-name").replaceAll("%player%", target.getName());
-		final ItemStack base = SkullCreator.itemFromName(target.getName());
+		final String name = Lang.get("gui.elo.item-name").replaceAll("%player%", target.getUsername());
+		final ItemStack base = SkullCreator.itemFromName(target.getUsername());
 		
-		final EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(target);
-
 		List<String> lore = new ArrayList<>();
 		for(String str : Lang.getList("gui.elo.item-lore")) {
-			str = str.replaceAll("%elo_CLASSIC%", ePlayer.getElo(UHCModeType.CLASSIC)+"");
-			str = str.replaceAll("%elo_NODEBUFF%", ePlayer.getElo(UHCModeType.NODEBUFF)+"");
+			str = str.replaceAll("%elo_CLASSIC%", target.getElo(UHCModeType.CLASSIC)+"");
+			str = str.replaceAll("%elo_NODEBUFF%", target.getElo(UHCModeType.NODEBUFF)+"");
 			
 			lore.add(str);
 		}

@@ -1,5 +1,7 @@
 package xyz.mintydev.uhcdeathmatch.listeners;
 
+import java.io.IOException;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,9 +43,12 @@ public class CoreListener implements Listener {
 		final Player player = e.getPlayer();
 		EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(player);
 		if(ePlayer == null) return;
-		
-		/* Save and remove profile on player disconnect */
-		main.getEloPlayersManager().saveAndRemove(ePlayer);
+
+		try {
+			main.getEloPlayersManager().save(ePlayer);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 }
