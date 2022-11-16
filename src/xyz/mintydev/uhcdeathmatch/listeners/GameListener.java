@@ -28,6 +28,7 @@ import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.PlayerState;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.UHCPlayer;
+import xyz.mintydev.uhcdeathmatch.util.Cooldown;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 import xyz.mintydev.uhcdeathmatch.util.UHCUtil;
 
@@ -35,8 +36,12 @@ public class GameListener implements Listener {
 
 	private UHCDeathMatch main;
 	
+	private Cooldown gheadCooldown;
+	
 	public GameListener(UHCDeathMatch main) {
 		this.main = main;
+		
+		gheadCooldown = new Cooldown(main.getConfig().getInt("settings.ghead-cooldown")); 
 	}
 	
 	@EventHandler
@@ -79,10 +84,17 @@ public class GameListener implements Listener {
 		
 		if(item.equals(ItemBuilder.getGhead(item.getAmount()))) {
 			// used ghead
+			
+			if(gheadCooldown.isUnderCooldown(player)) {
+				e.setCancelled(true);
+				return;
+			}
+			
 			UHCUtil.removeOne(player, item);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12*20, 1));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 2));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 90*20, 0));
+			gheadCooldown.startCooldown(player);
 		}
 	}
 	

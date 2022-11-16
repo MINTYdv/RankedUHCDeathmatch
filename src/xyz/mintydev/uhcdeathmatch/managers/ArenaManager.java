@@ -17,6 +17,7 @@ import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
+import xyz.mintydev.uhcdeathmatch.util.ConfigUtil;
 
 public class ArenaManager {
 
@@ -49,9 +50,9 @@ public class ArenaManager {
 			ConfigurationSection locSec = sec.getConfigurationSection(id + ".players-pos");
 			ConfigurationSection centerSec = sec.getConfigurationSection(id + ".center");
 
-			final Location center = parseLocation(world, centerSec);
-			final Location pos1 = parseLocation(world, sec.getConfigurationSection(id + ".pos1"));
-			final Location pos2 = parseLocation(world, sec.getConfigurationSection(id + ".pos2"));
+			final Location center = ConfigUtil.parseLocation(world, centerSec);
+			final Location pos1 = ConfigUtil.parseLocation(world, sec.getConfigurationSection(id + ".pos1"));
+			final Location pos2 = ConfigUtil.parseLocation(world, sec.getConfigurationSection(id + ".pos2"));
 			
 			for(String locId : locSec.getKeys(false)) {
 				final double x = locSec.getDouble(locId + ".x");
@@ -67,20 +68,7 @@ public class ArenaManager {
 		}
 		main.getLogger().info("Loaded " + arenas.size() + " arenas.");
 	}
-	
-	private Location parseLocation(World world, ConfigurationSection sec) {
-		final double x = sec.getDouble("x");
-		final double y = sec.getDouble("y");
-		final double z = sec.getDouble("z");
-		
-		double yaw = 0;
-		double pitch = 0;
-		if(sec.contains("yaw")) yaw = sec.getDouble("yaw");
-		if(sec.contains("pitch")) pitch = sec.getDouble("pitch");
-		
-		return new Location(world, x, y, z, (float) yaw, (float) pitch);
-	}
-	
+
 	private void createCustomConfig() {
         customConfigFile = new File(main.getDataFolder(), fileName);
         if (!customConfigFile.exists()) {

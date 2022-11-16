@@ -70,10 +70,12 @@ public class GameManager {
 				
 				// register runnable
 				new GameRunnable(main).runTaskTimer(main, 0, 20);
+				
+				// create leaderboards
+				main.getLeaderboardManager().init();
 			}
 
 		}.runTask(main);
-
 	}
 	
 	public void addKillElo(UHCModeType type, Player player) {

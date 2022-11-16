@@ -1,6 +1,7 @@
 settings:
   timer: 5
   games-per-mode: 8
+  ghead-cooldown: 2
   elo:
     default: 1000
     kill: 10
@@ -16,3 +17,14 @@ settings:
     2:
       timer: 200
       size: 20
+  leaderboards:
+    entries: 15
+    world: world
+    classic:
+      x: 7
+      y: 68
+      z: 1
+    nodebuff:
+      x: 17
+      y: 68
+      z: 1

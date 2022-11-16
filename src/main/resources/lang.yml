@@ -29,6 +29,15 @@ game:
   winner: "&6&lWINNER&f: %winner% &7- &fCongrats!"
   errors:
     not-enough-players: "&cA player left so the game will not start. Timer resetted."
+holograms:
+  leaderboard:
+    content:
+      - '&c&lLEADERBOARD: %mode%'
+      - ''
+      - '%entries%'
+      - ''
+    entry: '&e&l#%place% &f- &e%player% &7(%elo% elo)'
+    entry-none: '&e&l#%place% &f- &cNo Entry'
 scoreboards:
   title: '&6&lDEATCHMATCH'
   hub:

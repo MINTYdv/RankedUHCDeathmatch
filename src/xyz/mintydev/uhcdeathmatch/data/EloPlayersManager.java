@@ -25,7 +25,7 @@ import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 
 public class EloPlayersManager {
 
-	private static Map<UUID, EloPlayer> elarysPlayers = new HashMap<>();
+	private Map<UUID, EloPlayer> elarysPlayers = new HashMap<>();
 
     private final String folderName = "players";
     private final UHCDeathMatch main;
@@ -167,7 +167,7 @@ public class EloPlayersManager {
 		return folderName;
 	}
 	
-	public static Map<UUID, EloPlayer> getEloPlayers() {
+	public Map<UUID, EloPlayer> getEloPlayers() {
 		return elarysPlayers;
 	}
 	
