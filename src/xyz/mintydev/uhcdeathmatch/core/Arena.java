@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
@@ -38,6 +39,10 @@ public class Arena {
 		this.pos2 = pos2;
 		this.center = center;
 		this.playersPositions = playersPositions;
+	}
+	
+	public String getType() {
+		return ChatColor.stripColor(this.name);
 	}
 	
 	public Cuboid getCuboid() {

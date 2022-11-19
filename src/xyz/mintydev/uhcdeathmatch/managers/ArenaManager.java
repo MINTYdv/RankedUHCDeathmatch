@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.Arena;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
+import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 import xyz.mintydev.uhcdeathmatch.util.ConfigUtil;
 
@@ -84,14 +85,58 @@ public class ArenaManager {
         }
     }
 	
-	public Arena getAvailableArea(UHCGame game) {
+	public List<String> getTypes(){
+		List<String> result = new ArrayList<>();
 		for(Arena arena : this.arenas) {
-			if(arena.isUsed()) continue;
-			if(!(arena.isNodebuff()) && game.getMode().getType() == UHCModeType.NODEBUFF) continue;
+			if(result.contains(arena.getType())) continue;
 			
-			return arena;
+			result.add(arena.getType());
 		}
-		return null;
+		return result;
+	}
+	
+	public void distributeArenas() {
+		
+		List<String> types = new ArrayList<>();
+		for(Arena arena : this.arenas) {
+			if(types.contains(arena.getType())) continue;
+			types.add(arena.getType());
+		}
+		
+		for(UHCMode mode : main.getGameManager().getModes()) {
+			List<String> mapsUsed = new ArrayList<>();
+			
+			for(int i = 0; i < main.getGameManager().getGames(mode).size(); i++) {
+				final UHCGame game = main.getGameManager().getGames(mode).get(i);
+				
+				for(Arena arena : this.arenas) {
+					System.out.println(arena.getType());
+					if(!(isValidArena(arena, game))) {
+						continue;
+					}
+					
+					if(mapsUsed.contains(arena.getType())) {
+						continue;
+					}
+					
+					// use it
+					mapsUsed.add(arena.getType());
+					game.setArena(arena);
+					arena.setUsed(true);
+					
+					if(mapsUsed.size() == types.size()) {
+						mapsUsed.clear();
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean isValidArena(Arena arena, UHCGame game) {
+		if(arena.isUsed()) return false;
+		if(game.getMode().getType() == UHCModeType.NODEBUFF && !(arena.isNodebuff())) return false;
+
+		return true;
 	}
 	
 	/* 
@@ -105,5 +150,5 @@ public class ArenaManager {
 	public File getCustomConfigFile() {
 		return customConfigFile;
 	}
-	
+
 }

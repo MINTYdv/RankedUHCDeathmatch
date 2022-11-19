@@ -68,6 +68,9 @@ public class GameManager {
 				}
 				System.out.println("Created " + games.size() + " games");
 				
+				// give arenas
+				main.getArenaManager().distributeArenas();
+				
 				// register runnable
 				new GameRunnable(main).runTaskTimer(main, 0, 20);
 				
@@ -329,8 +332,6 @@ public class GameManager {
 		// set things
 		if(game.getArena() != null) {
 			final Arena arena = game.getArena();
-			
-			arena.setUsed(false);
 			arena.resetTeleportations();
 			
 			/* reset blocks */
@@ -340,9 +341,6 @@ public class GameManager {
 						final BlockState state = arena.getSavedBlocks().get(block.getLocation());
 						
 						block.getState().setRawData(state.getRawData());
-//						block.setType(state.getType());
-//						block.getState().setData(state.getData());
-//						block.getState().update(true);
 					} else {
 						block.setType(Material.AIR);
 					}
@@ -354,13 +352,6 @@ public class GameManager {
 		game.setStartTimer(-1);
 		
 		main.getBorderManager().endGame(game);
-		
-		// get arena
-		Arena arena = main.getArenaManager().getAvailableArea(game);
-		game.setArena(arena);
-		if(arena != null) {
-			arena.setUsed(true);
-		}
 
 		// clear players
 		game.getPlayers().clear();

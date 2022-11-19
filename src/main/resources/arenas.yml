@@ -1,6 +1,6 @@
 arenas:
   1:
-    name: '&bArena 1'
+    name: '&cType1'
     world: "arena1"
     nodebuff: true
     center:
@@ -43,7 +43,7 @@ arenas:
         yaw: -1.7
         pitch: 5.9
   2:
-    name: '&bArena 2'
+    name: '&cType1'
     world: "arena2"
     nodebuff: false
     center:
@@ -86,7 +86,7 @@ arenas:
         yaw: -1.7
         pitch: 5.9
   3:
-    name: '&bArena 3'
+    name: '&cType2'
     world: "arena3"
     nodebuff: true
     center:
@@ -129,7 +129,7 @@ arenas:
         yaw: -1.7
         pitch: 5.9
   4:
-    name: '&bArena 4'
+    name: '&cType3'
     world: "arena4"
     nodebuff: false
     center:
