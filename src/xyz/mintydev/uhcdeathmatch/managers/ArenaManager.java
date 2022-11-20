@@ -3,6 +3,7 @@ package xyz.mintydev.uhcdeathmatch.managers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import xyz.mintydev.uhcdeathmatch.core.Arena;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
+import xyz.mintydev.uhcdeathmatch.duels.DuelGame;
 import xyz.mintydev.uhcdeathmatch.util.ConfigUtil;
 
 public class ArenaManager {
@@ -131,9 +133,21 @@ public class ArenaManager {
 		}
 	}
 	
+	public Arena getValidDuelArena(DuelGame game) {
+		List<Arena> shuffled = new ArrayList<>();
+		shuffled.addAll(arenas);
+		Collections.shuffle(shuffled);
+		
+		for(Arena arena : shuffled) {
+			if(!(isValidArena(arena, game))) continue;
+			return arena;
+		}
+		return null;
+	}
+	
 	private boolean isValidArena(Arena arena, UHCGame game) {
 		if(arena.isUsed()) return false;
-		if(game.getMode().getType() == UHCModeType.NODEBUFF && !(arena.isNodebuff())) return false;
+		if(game.getMode().getType() != UHCModeType.NODEBUFF && arena.isNodebuff()) return false;
 
 		return true;
 	}

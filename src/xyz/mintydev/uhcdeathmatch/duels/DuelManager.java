@@ -12,6 +12,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
+import xyz.mintydev.uhcdeathmatch.core.Arena;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 
@@ -57,6 +58,28 @@ public class DuelManager {
 		
 		// remove request
 		removeRequest(request);
+		
+		// create game
+		final DuelGame game = new DuelGame(request.getMode(), request.getAskingPlayer(), request.getOpponent());
+
+		final Arena arena = main.getArenaManager().getValidDuelArena(game);
+		if(arena == null) {
+			// cancel the duel & send messages
+			
+			request.getAskingPlayer().sendMessage(Lang.get("commands.duel.messages.no-arena"));
+			request.getOpponent().sendMessage(Lang.get("commands.duel.messages.no-arena"));
+			
+			return;
+		}
+		
+		main.getGameManager().addGame(game);
+		game.setArena(arena);
+		arena.setUsed(true);
+		
+		// make players join the game
+		
+		main.getGameManager().joinGame(request.getAskingPlayer(), game);
+		main.getGameManager().joinGame(request.getOpponent(), game);
 		
 	}
 	

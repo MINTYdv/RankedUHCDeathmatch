@@ -293,6 +293,7 @@ public class GameManager {
 		resetGame(game);
 		
 		if(game instanceof DuelGame) {
+			game.getArena().setUsed(false);
 			this.duelGames.remove(game);
 		}
 	}

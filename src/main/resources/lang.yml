@@ -20,6 +20,9 @@ commands:
     error-mode: "&cInvalid mode provided, valid modes are : "
   duel:
     messages:
+      expired-request: "&6&lDuel &f| &cYour duel request to %player% has expired after 2 minutes."
+      no-arena: "&6&lDuel &f| &cThe duel has been cancelled since there is no arena currently available."
+      opponent-left: "&6&lDuel &f| &cYour opponent left, so the game has been cancelled."
       received: "&6&lDuel &f| &eYou received a duel request from &6%player%&e, click here to accept it ! &7(%mode%)"
       hover: "&eClick here to accept the request"
       request-sent: "&6&lDuel &f| &eYou successfully sent a duel request to &6%player% &7(%mode%)"

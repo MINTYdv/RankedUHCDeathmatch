@@ -9,6 +9,7 @@ import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.GameState;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
+import xyz.mintydev.uhcdeathmatch.duels.DuelGame;
 
 public class LeaveCommand implements CommandExecutor {
 
@@ -32,6 +33,20 @@ public class LeaveCommand implements CommandExecutor {
 		if(game == null) {
 			sender.sendMessage(Lang.get("errors.commands.no-game"));
 			return false;
+		}
+		
+		if(game.getState() == GameState.WAITING && game instanceof DuelGame) {
+			for(final Player p : game.getPlayers()) {
+				if(p != null && p.isOnline()) {
+					main.getGameManager().leaveGame(p, game);
+					
+					if(p != player) {
+						p.sendMessage(Lang.get("commands.duel.messages.opponent-left"));
+					}
+				}
+			}
+			
+			main.getGameManager().endGame(game);
 		}
 		
 		// leave the game
