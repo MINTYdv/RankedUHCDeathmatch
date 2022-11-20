@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -35,15 +36,15 @@ public class DuelManager {
 		
 		// notify player
 		
-		final String content = Lang.get("commands.duel.messages.received").replaceAll("%player%", player.getName()).replaceAll("%mode%", mode.getDisplayName());
+		final String content = Lang.get("commands.duel.messages.received").replaceAll("%player%", player.getName()).replaceAll("%mode%", ChatColor.stripColor(mode.getDisplayName()));
 		TextComponent text = new TextComponent(content);
 		text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Lang.get("commands.duel.messages.hover")).create()));
 		text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept " + player.getName()));
 		target.spigot().sendMessage(text);
 		
 		// notify sender
-		
-		player.sendMessage(Lang.get("commands.duel.mesages.sent").replaceAll("%mode%", mode.getDisplayName()));
+
+		player.sendMessage(Lang.get("commands.duel.messages.request-sent").replaceAll("%player%", target.getName()).replaceAll("%mode%", ChatColor.stripColor(mode.getDisplayName())));
 	}
 	
 	public void acceptRequest(DuelRequest request) {

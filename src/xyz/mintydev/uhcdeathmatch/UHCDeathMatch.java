@@ -1,16 +1,13 @@
 package xyz.mintydev.uhcdeathmatch;
 
-import java.util.List;
-import java.util.Map.Entry;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.mintydev.uhcdeathmatch.cmd.DuelCommand;
 import xyz.mintydev.uhcdeathmatch.cmd.EloCommand;
 import xyz.mintydev.uhcdeathmatch.cmd.GamesStopCommand;
 import xyz.mintydev.uhcdeathmatch.cmd.LeaveCommand;
 import xyz.mintydev.uhcdeathmatch.core.Lang;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
-import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayersManager;
 import xyz.mintydev.uhcdeathmatch.deathchest.DeathChestManager;
 import xyz.mintydev.uhcdeathmatch.duels.DuelManager;
@@ -81,16 +78,17 @@ public class UHCDeathMatch extends JavaPlugin {
 		getCommand("leave").setExecutor(new LeaveCommand(this));
 		getCommand("gamestop").setExecutor(new GamesStopCommand(this));
 		getCommand("elo").setExecutor(new EloCommand(this));
+		getCommand("duel").setExecutor(new DuelCommand(this));
 	}
 
 	@Override
 	public void onDisable() {
 		this.eloPlayersManager.saveAll();
 		// end all games
-		if(this.getGameManager().getGames() != null && this.getGameManager().getGames().entrySet().size() > 0) {
-			for(Entry<UHCMode, List<UHCGame>> entry : this.getGameManager().getGames().entrySet()) {
-				for(UHCGame game : entry.getValue())
-					gameManager.endGame(game);
+		if(this.getGameManager().getGames() != null && this.getGameManager().getAllGames().size() > 0) {
+			
+			for(UHCGame game : gameManager.getAllGames()) {
+				gameManager.endGame(game);
 			}
 		}
 		

@@ -110,7 +110,6 @@ public class ArenaManager {
 				final UHCGame game = main.getGameManager().getGames(mode).get(i);
 				
 				for(Arena arena : this.arenas) {
-					System.out.println(arena.getType());
 					if(!(isValidArena(arena, game))) {
 						continue;
 					}

@@ -86,6 +86,11 @@ public class DuelCommand implements CommandExecutor {
 				return false;
 			}
 			
+			if(target.getName().equalsIgnoreCase(player.getName())) {
+				sender.sendMessage(Lang.get("commands.duel.errors.yourself"));
+				return false;
+			}
+			
 			// can duel the player
 			// check if the sender has already sent a duel request to the player
 			
@@ -96,6 +101,7 @@ public class DuelCommand implements CommandExecutor {
 			
 			// open the gui
 			main.getGuiManager().open(player, new DuelModeSelectGUI(main, target));
+			return true;
 		}
 		
 		sender.sendMessage(Lang.get("commands.duel.usages.main"));

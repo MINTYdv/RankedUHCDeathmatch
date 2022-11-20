@@ -20,9 +20,9 @@ commands:
     error-mode: "&cInvalid mode provided, valid modes are : "
   duel:
     messages:
-      received: "&6Duel &f| &eYou received a duel request from &6%player%&e, click here to accept it ! &7(%mode%)"
+      received: "&6&lDuel &f| &eYou received a duel request from &6%player%&e, click here to accept it ! &7(%mode%)"
       hover: "&eClick here to accept the request"
-      sent: "&6&lDuel &f| &eYou successfully sent a duel request to &6%player% &7(%mode%)"
+      request-sent: "&6&lDuel &f| &eYou successfully sent a duel request to &6%player% &7(%mode%)"
       accepted:
         player: "&6&lDuel &f| &aYou successfully accepted %player%'s duel request."
         asking-player: "&6&lDuel &f| &aYour duel request has been accepted by %target%."
@@ -31,6 +31,7 @@ commands:
     usages:
       main: "&cUsage: /duel <player>"
     errors:
+      yourself: "&cYou can't duel yourself."
       no-pending: "&cYou don't have any pending duel request from this player."
       already-sent: "&cYou already have a duel request pending response from this player."
       player-playing: "&cYou can't duel someone that is currently in a game."
