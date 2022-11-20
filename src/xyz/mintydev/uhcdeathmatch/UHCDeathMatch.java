@@ -13,6 +13,7 @@ import xyz.mintydev.uhcdeathmatch.core.UHCGame;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayersManager;
 import xyz.mintydev.uhcdeathmatch.deathchest.DeathChestManager;
+import xyz.mintydev.uhcdeathmatch.duels.DuelManager;
 import xyz.mintydev.uhcdeathmatch.leaderboard.LeaderboardManager;
 import xyz.mintydev.uhcdeathmatch.listeners.CoreListener;
 import xyz.mintydev.uhcdeathmatch.listeners.GameListener;
@@ -38,6 +39,7 @@ public class UHCDeathMatch extends JavaPlugin {
 	private BorderManager borderManager;
 	private UHCGuiManager guiManager;
 	private LeaderboardManager leaderboardManager;
+	private DuelManager duelManager;
 	
 	@Override
 	public void onEnable() {
@@ -56,6 +58,7 @@ public class UHCDeathMatch extends JavaPlugin {
 		this.scoreboardManager = new ScoreboardManager(this);
 		this.deathChestManager = new DeathChestManager(this);
 		this.leaderboardManager = new LeaderboardManager(this);
+		this.duelManager = new DuelManager(this);
 		
 		this.guiManager = new UHCGuiManager(this);
 		
@@ -132,6 +135,10 @@ public class UHCDeathMatch extends JavaPlugin {
 	
 	public GameManager getGameManager() {
 		return gameManager;
+	}
+	
+	public DuelManager getDuelManager() {
+		return duelManager;
 	}
 	
 	public static UHCDeathMatch get() {

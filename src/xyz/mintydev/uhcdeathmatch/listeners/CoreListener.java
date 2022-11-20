@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayer;
+import xyz.mintydev.uhcdeathmatch.duels.DuelRequest;
 
 public class CoreListener implements Listener {
 
@@ -42,8 +43,15 @@ public class CoreListener implements Listener {
 	public void onQuit(PlayerQuitEvent e) {
 		final Player player = e.getPlayer();
 		EloPlayer ePlayer = main.getEloPlayersManager().getPlayer(player);
+
+		// delete player's duel requests
+		for(DuelRequest request : main.getDuelManager().getSentRequests(player)) {
+			main.getDuelManager().removeRequest(request);
+		}
+		
 		if(ePlayer == null) return;
 
+		// save elo data
 		try {
 			main.getEloPlayersManager().save(ePlayer);
 		} catch (IOException e1) {

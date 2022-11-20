@@ -18,6 +18,24 @@ commands:
     error-player: "&cCouldn't find a player with the name of \"%name%\" inside the database !"
     error-number: "&cInvalid number provided."
     error-mode: "&cInvalid mode provided, valid modes are : "
+  duel:
+    messages:
+      received: "&6Duel &f| &eYou received a duel request from &6%player%&e, click here to accept it ! &7(%mode%)"
+      hover: "&eClick here to accept the request"
+      sent: "&6&lDuel &f| &eYou successfully sent a duel request to &6%player% &7(%mode%)"
+      accepted:
+        player: "&6&lDuel &f| &aYou successfully accepted %player%'s duel request."
+        asking-player: "&6&lDuel &f| &aYour duel request has been accepted by %target%."
+    gui:
+      title: "&6&lSelect a mode &7(Duel)"
+    usages:
+      main: "&cUsage: /duel <player>"
+    errors:
+      no-pending: "&cYou don't have any pending duel request from this player."
+      already-sent: "&cYou already have a duel request pending response from this player."
+      player-playing: "&cYou can't duel someone that is currently in a game."
+      sender-playing: "&cYou can't send a duel request while in a game."
+      unknown-player: "&cCould not find an online player with the name of \"%name%\" !"
 items:
   sword: "&6&lJoin a game"
   game: "&e&lGame #%number%"
