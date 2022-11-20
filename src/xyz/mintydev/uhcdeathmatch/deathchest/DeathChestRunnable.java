@@ -6,7 +6,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.mintydev.uhcdeathmatch.UHCDeathMatch;
 import xyz.mintydev.uhcdeathmatch.core.UHCGame;
-import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 
 public class DeathChestRunnable extends BukkitRunnable {
 
@@ -18,25 +17,23 @@ public class DeathChestRunnable extends BukkitRunnable {
 	
 	@Override
 	public void run() {
+		if(main.getGameManager().getAllGames() == null || main.getGameManager().getAllGames().size() == 0) return;
 		
-		for(UHCMode mode : main.getGameManager().getModes()) {
-			for(UHCGame game : main.getGameManager().getGames(mode)) {
-				if(main.getDeathChestManager().getChests(game) == null) continue;
+		for(UHCGame game : main.getGameManager().getAllGames()) {
+			if(main.getDeathChestManager().getChests(game) == null) continue;
+			
+			final Date now = new Date();
+			for(DeathChest chest : main.getDeathChestManager().getChests(game)) {
 				
-				final Date now = new Date();
-				for(DeathChest chest : main.getDeathChestManager().getChests(game)) {
-					
-					final long difference = now.getTime() - chest.getSpawnedDate().getTime();
-					if(difference >= 30*1000) {
-						// remove chest
-						main.getDeathChestManager().removeChest(chest);
-						continue;
-					}
-					
+				final long difference = now.getTime() - chest.getSpawnedDate().getTime();
+				if(difference >= 30*1000) {
+					// remove chest
+					main.getDeathChestManager().removeChest(chest);
+					continue;
 				}
+				
 			}
 		}
-		
 	}
 
 }

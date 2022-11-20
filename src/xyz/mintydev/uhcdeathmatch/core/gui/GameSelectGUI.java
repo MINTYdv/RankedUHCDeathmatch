@@ -32,7 +32,6 @@ public class GameSelectGUI extends UHCGUI {
 
 	@Override
 	public void contents(Player player, Inventory inv) {
-		
 		for(int i = 0; i < main.getGameManager().getGames(mode).size(); i++) {
 			final UHCGame game = main.getGameManager().getGames(mode).get(i);
 			

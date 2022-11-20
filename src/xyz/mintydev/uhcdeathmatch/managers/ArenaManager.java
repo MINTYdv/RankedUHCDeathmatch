@@ -116,18 +116,19 @@ public class ArenaManager {
 						continue;
 					}
 					
-					if(mapsUsed.contains(arena.getType())) {
-						continue;
-					}
+//					if(mapsUsed.contains(arena.getType())) {
+//						continue;
+//					}
 					
 					// use it
 					mapsUsed.add(arena.getType());
 					game.setArena(arena);
 					arena.setUsed(true);
-					
-					if(mapsUsed.size() == types.size()) {
-						mapsUsed.clear();
-					}
+					break;
+				}
+				
+				if(mapsUsed.size() == types.size()) {
+					mapsUsed.clear();
 				}
 			}
 		}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -62,12 +61,16 @@ public class GameManager {
 				modes.add(new ClassicMode());
 				modes.add(new NodebuffMode());
 				
+				final int gamesAmount = main.getConfig().getInt("settings.games-per-mode");
+				
 				// create games
-				for(UHCMode mode : modes) {
-					for(int i = 1; i <= main.getConfig().getInt("settings.games-per-mode"); i++) {
+				
+				modes.forEach(mode -> {
+					do {
 						createNewGame(mode);
-					}
-				}
+					}while(gamesAmount > getGames(mode).size());
+				});
+				
 				System.out.println("Created " + games.size() + " games");
 				
 				// give arenas
@@ -323,16 +326,7 @@ public class GameManager {
 	}
 	
 	private void createNewGame(UHCMode mode) {
-		if(!(games.containsKey(mode))) {
-			games.put(mode, new ArrayList<>());
-		}
-		List<UHCGame> list = games.get(mode);
-		
-		UHCGame game = new UHCGame(mode);
-		list.add(game);
-		games.remove(mode);
-		games.put(mode, list);
-		addGame(game);
+		addGame(new UHCGame(mode));
 	}
 	
 	public void addGame(UHCGame game) {
@@ -389,6 +383,7 @@ public class GameManager {
 	}
 	
 	public List<UHCGame> getGames(UHCMode mode){
+		if(games.get(mode) == null) return new ArrayList<>();
 		return games.get(mode);
 	}
 	
@@ -399,6 +394,9 @@ public class GameManager {
 	public List<UHCGame> getAllGames(){
 		List<UHCGame> res = new ArrayList<>();
 		for(UHCMode mode : this.getModes()) {
+			if(getGames(mode) == null) continue;
+			if(getGames(mode).size() == 0) continue;
+			
 			res.addAll(getGames(mode));
 		}
 		res.addAll(duelGames);
