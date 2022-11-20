@@ -35,6 +35,7 @@ import xyz.mintydev.uhcdeathmatch.core.modes.NodebuffMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCMode;
 import xyz.mintydev.uhcdeathmatch.core.modes.UHCModeType;
 import xyz.mintydev.uhcdeathmatch.data.EloPlayer;
+import xyz.mintydev.uhcdeathmatch.duels.DuelGame;
 import xyz.mintydev.uhcdeathmatch.runnables.GameRunnable;
 import xyz.mintydev.uhcdeathmatch.util.ItemBuilder;
 import xyz.mintydev.uhcdeathmatch.util.TitleUtil;
@@ -45,6 +46,7 @@ public class GameManager {
 	
 	private List<UHCMode> modes = new ArrayList<>();
 	private Map<UHCMode, List<UHCGame>> games = new HashMap<>();
+	private List<UHCGame> duelGames = new ArrayList<>();
 	
 	private boolean gamesStopped = false;
 	
@@ -101,20 +103,16 @@ public class GameManager {
 	
 	public int getAmountofIngamePlayers() {
 		int res = 0;
-		for(UHCMode mode : this.modes) {
-			for(UHCGame game : getGames(mode)) {
-				res += game.getPlayers().size();
-			}
+		for(UHCGame game : this.getAllGames()) {
+			res += game.getPlayers().size();
 		}
 		return res;
 	}
 	
 	public UHCGame getGame(Player player) {
-		for(Entry<UHCMode, List<UHCGame>> entry : games.entrySet()) {
-			for(UHCGame game : entry.getValue()) {
-				if(!(game.getPlayers().contains(player))) continue;
-				return game;
-			}
+		for(UHCGame game : getAllGames()) {
+			if(!(game.getPlayers().contains(player))) continue;
+			return game;
 		}
 		return null;
 	}
@@ -164,13 +162,16 @@ public class GameManager {
 		final UHCPlayer uPlayer = main.getPlayersManager().getPlayer(victim);
 		uPlayer.setState(PlayerState.SPECTATOR);
 		
+		// add kill to player
 		if(killer != null) {
-			// add kill to player
 			final UHCPlayer uKiller = main.getPlayersManager().getPlayer(killer);
 			uKiller.addKill();
-			addKillElo(game.getMode().getType(), killer);
 		}
-		removeDeathElo(game.getMode().getType(), victim);
+		
+		if(!(game instanceof DuelGame)) {
+			if(killer != null) addKillElo(game.getMode().getType(), killer);
+			removeDeathElo(game.getMode().getType(), victim);
+		}
 
 		// set spec
 		new BukkitRunnable() {
@@ -290,12 +291,18 @@ public class GameManager {
 		main.getDeathChestManager().resetChests(game);
 		
 		resetGame(game);
+		
+		if(game instanceof DuelGame) {
+			this.duelGames.remove(game);
+		}
 	}
 	
 	public void winGame(UHCGame game, Player winner) {
 		if(game.getState() != GameState.RUNNING) return;
 		
-		addWinElo(game.getMode().getType(), winner);
+		if(!(game instanceof DuelGame)) {
+			addWinElo(game.getMode().getType(), winner);	
+		}
 		
 		game.setState(GameState.FINISHED);
 		winner.setHealth(winner.getMaxHealth());
@@ -324,12 +331,31 @@ public class GameManager {
 		list.add(game);
 		games.remove(mode);
 		games.put(mode, list);
+		addGame(game);
+	}
+	
+	public void addGame(UHCGame game) {
+		
+		if(!(game instanceof DuelGame)) {
+			final UHCMode mode = game.getMode();
+			if(!(games.containsKey(mode))) {
+				games.put(mode, new ArrayList<>());
+			}
+			List<UHCGame> list = games.get(mode);
+			
+			list.add(game);
+			games.remove(mode);
+			games.put(mode, list);
+		} else {
+			duelGames.add(game);
+		}
+		
 		resetGame(game);
 	}
 
 	@SuppressWarnings("deprecation")
 	public void resetGame(UHCGame game) {
-		// set things
+		
 		if(game.getArena() != null) {
 			final Arena arena = game.getArena();
 			arena.resetTeleportations();
@@ -348,14 +374,17 @@ public class GameManager {
 			}
 			/* reset blocks */
 		}
-		game.setState(GameState.WAITING);
-		game.setStartTimer(-1);
-		
 		main.getBorderManager().endGame(game);
+		
+		if(!(game instanceof DuelGame)) {
+			// set things
+			game.setState(GameState.WAITING);
+			game.setStartTimer(-1);
 
-		// clear players
-		game.getPlayers().clear();
-		game.getAlivePlayers().clear();
+			// clear players
+			game.getPlayers().clear();
+			game.getAlivePlayers().clear();
+		}
 	}
 	
 	public List<UHCGame> getGames(UHCMode mode){
@@ -366,12 +395,25 @@ public class GameManager {
 	 * Getters & Setters
 	 * */
 	
+	public List<UHCGame> getAllGames(){
+		List<UHCGame> res = new ArrayList<>();
+		for(UHCMode mode : this.getModes()) {
+			res.addAll(getGames(mode));
+		}
+		res.addAll(duelGames);
+		return res;
+	}
+	
 	public boolean areGamesStopped() {
 		return gamesStopped;
 	}
 	
 	public List<UHCMode> getModes() {
 		return modes;
+	}
+	
+	public List<UHCGame> getDuelGames() {
+		return duelGames;
 	}
 	
 	public void setGamesStopped(boolean gamesStopped) {
