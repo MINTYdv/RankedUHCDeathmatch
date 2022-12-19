@@ -1,6 +1,6 @@
 settings:
   timer: 5
-  games-per-mode: 1
+  games-per-mode: 5
   ghead-cooldown: 2
   elo:
     default: 1000

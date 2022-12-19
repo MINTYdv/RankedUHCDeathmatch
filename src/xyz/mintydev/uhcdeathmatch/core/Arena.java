@@ -19,7 +19,7 @@ public class Arena {
 
 	private boolean used = false;
 	
-	private final boolean nodebuff;
+	private final String id;
 	private final String name;
 	private final String worldName;
 	private final Location pos1;
@@ -31,14 +31,18 @@ public class Arena {
 	
 	private Map<Location, BlockState> savedBlocks = new HashMap<>();
 	
-	public Arena(boolean nodebuff, String name, String worldName, Location pos1, Location pos2, Location center, List<Location> playersPositions) {
+	public Arena(String id, String name, String worldName, Location pos1, Location pos2, Location center, List<Location> playersPositions) {
+		this.id = id;
 		this.name = name;
-		this.nodebuff = nodebuff;
 		this.worldName = worldName;
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.center = center;
 		this.playersPositions = playersPositions;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	public String getType() {
@@ -90,11 +94,7 @@ public class Arena {
 	public String getName() {
 		return name;
 	}
-	
-	public boolean isNodebuff() {
-		return nodebuff;
-	}
-	
+
 	public List<Location> getPlayersPositions() {
 		return playersPositions;
 	}
