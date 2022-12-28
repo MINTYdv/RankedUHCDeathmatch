@@ -91,6 +91,17 @@ public class GameListener implements Listener {
 			}
 			
 			UHCUtil.removeOne(player, item);
+			
+			if(player.hasPotionEffect(PotionEffectType.SPEED)) {
+				player.removePotionEffect(PotionEffectType.SPEED);
+			}
+			if(player.hasPotionEffect(PotionEffectType.ABSORPTION)) {
+				player.removePotionEffect(PotionEffectType.ABSORPTION);
+			}
+			if(player.hasPotionEffect(PotionEffectType.REGENERATION)) {
+				player.removePotionEffect(PotionEffectType.REGENERATION);
+			}
+			
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12*20, 1));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 2));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 90*20, 0));

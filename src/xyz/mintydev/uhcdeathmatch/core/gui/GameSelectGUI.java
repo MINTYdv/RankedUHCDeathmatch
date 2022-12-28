@@ -41,7 +41,7 @@ public class GameSelectGUI extends UHCGUI {
 				if(game.getArena() == null) {
 					str = str.replaceAll("%arena%", "§cCouldn't find an available arena.");
 				} else {
-					str = str.replaceAll("%arena%", main.getArenaManager().getMap(game.getArena()).getDisplayName() + " - " + game.getArena().getName());
+					str = str.replaceAll("%arena%", main.getArenaManager().getMap(game.getArena()).getDisplayName());
 				}
 				
 				str = str.replaceAll("%status%", game.getState().getDisplayName());

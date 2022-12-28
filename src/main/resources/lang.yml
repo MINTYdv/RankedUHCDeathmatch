@@ -139,7 +139,7 @@ gui:
     title: "&6&lSelect a game"
     game-lore:
       - ''
-      - '&7Arena: &e%arena%'
+      - '&7Map: &e%arena%'
       - ''
       - '&7Status: &c%status%'
       - '&7Players: &e%players%/4'
