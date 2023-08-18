@@ -1,79 +1,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>xyz.mintydev</groupId>
-  <artifactId>rankeduhcdeathmatch</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-        <finalName>RankedUHCDeathmatch-${project.version}</finalName>
-        <sourceDirectory>src</sourceDirectory>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-		                        	<include>fr.mrmicky:fastboard</include>
-                                    <include>com.gmail.filoghost.holographicdisplays:holographicdisplays-api</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>xyz.mintydev</groupId>
+	<artifactId>rankeduhcdeathmatch</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<finalName>RankedUHCDeathmatch-${project.version}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>fr.mrmicky:fastboard</include>
+									<include>com.gmail.filoghost.holographicdisplays:holographicdisplays-api</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<repositories>
 		<repository>
-		    <id>codemc-repo</id>
-		    <url>https://repo.codemc.io/repository/maven-public/</url>
+			<id>codemc-repo</id>
+			<url>https://repo.codemc.io/repository/maven-public/</url>
 		</repository>
 	</repositories>
 
 	<dependencies>
-        <!-- HolographicDisplays -->
-        <dependency>
-            <groupId>com.gmail.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-api</artifactId>
-            <version>2.4.9</version>
-            <scope>provided</scope>
-        </dependency>
+		<!-- HolographicDisplays -->
+		<dependency>
+			<groupId>com.gmail.filoghost.holographicdisplays</groupId>
+			<artifactId>holographicdisplays-api</artifactId>
+			<version>2.4.9</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- FastBoard -->
-	    <dependency>
-	        <groupId>fr.mrmicky</groupId>
-	        <artifactId>fastboard</artifactId>
-	        <version>1.2.1</version>
-	    </dependency>
+		<dependency>
+			<groupId>fr.mrmicky</groupId>
+			<artifactId>fastboard</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 		<!-- Spigot -->
-        <dependency>
-            <groupId>spigot-1.8.9</groupId>
-            <artifactId>spigot-1.8.9</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/spigot-1.8.9.jar</systemPath>
-        </dependency>
+		<dependency>
+			<groupId>spigot-1.8.9</groupId>
+			<artifactId>spigot-1.8.9</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/spigot-1.8.9.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 </project>
